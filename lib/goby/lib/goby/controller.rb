@@ -87,7 +87,7 @@ module Goby
                          send controller_params_method
                        else
                          params
-      end
+                       end
 
       service_params = ActionController::Parameters.new(service_params) unless service_params.is_a? ActionController::Parameters
 

@@ -87,7 +87,7 @@ module Goby
         "fields[#{type}]=#{fields.join(',')}"
       end.join '&'
 
-      @meta[:fields] = request.fields.inject({}) { |m, v| m[v[0]] = v[1].join ','; m }
+      @meta[:fields] = request.fields.each_with_object({}) { |v, m| m[v[0]] = v[1].join ',' }
     end
 
     def unparse_includes
@@ -106,7 +106,7 @@ module Goby
         "filter[#{field}]=#{value}"
       end.join '&'
 
-      @meta[:filters] = request.filters.inject({}) { |m, v| m.merge(v) }
+      @meta[:filters] = request.filters.inject({}) { |a, e| a.merge(e) }
     end
 
     def unparse_sorts

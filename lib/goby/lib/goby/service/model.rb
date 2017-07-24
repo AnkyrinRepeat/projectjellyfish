@@ -66,7 +66,7 @@ module Goby
         return query unless @included
 
         # Skip trying to include any association that isn't on the model
-        associations = model_class.reflect_on_all_associations.map &:name
+        associations = model_class.reflect_on_all_associations.map(&:name)
 
         query.includes associations & @included
       end
@@ -74,7 +74,7 @@ module Goby
       def filter_query!(query)
         return query unless @filters
 
-        columns = model_class.column_names.map &:to_sym
+        columns = model_class.column_names.map(&:to_sym)
 
         @filters.reduce(query) do |q, filter|
           key, value = filter.each_pair.first

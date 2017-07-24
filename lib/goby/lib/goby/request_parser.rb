@@ -77,8 +77,6 @@ module Goby
     end
 
     def parse_fields(fields, action)
-      return if fields.nil?
-
       @fields = {}
 
       unless fields.is_a? ActionController::Parameters
@@ -90,6 +88,10 @@ module Goby
         @fields[field] = value.nil? || value.empty? ? nil : value.split(',').map(&:strip).map(&:to_sym)
       end
 
+      validate_fields(action)
+    end
+
+    def validate_fields(action)
       # Validate the fields
       @fields.each do |type, values|
         @fields[type] = []
@@ -117,7 +119,7 @@ module Goby
       return if includes.nil?
       return if serializer.nil?
 
-      resources = includes.split(',').map &:to_sym
+      resources = includes.split(',').map(&:to_sym)
       return if resources.empty?
 
       @included_resources = []
@@ -174,7 +176,7 @@ module Goby
 
       @sort_by = sorts.split(',').map do |sort|
         criteria = sort[0] == '-' ? [sort[1..-1], 'desc'] : [sort, 'asc']
-        criteria.map! &:to_sym
+        criteria.map!(&:to_sym)
 
         unless valid_sorts.include? criteria.first
           @errors.concat Goby::Exceptions::InvalidSortCriteria.new(serializer._type, sort).errors
@@ -190,7 +192,7 @@ module Goby
 
       # Allow paging to be disabled
       # TODO: Allow the serializer to disallow disabling paging
-      return if paging === false
+      return if paging == false
 
       @pagination = {}
 
@@ -199,7 +201,7 @@ module Goby
         @pagination[:size] = default_page_size
       else
         paging.permit(:number, :size)
-        @pagination[:number] = (paging[:number] || 1).to_i
+        @pagination[:number] = [paging[:number], 1].max.to_i
         @pagination[:size] = (paging[:size] || default_page_size).to_i
       end
 
@@ -207,9 +209,6 @@ module Goby
         @errors.concat Goby::Exceptions::InvalidPageValue.new(:size, @pagination[:size]).errors
       end
 
-      if @pagination[:number] < 1
-        @errors.concat Goby::Exceptions::InvalidPageValue.new(:number, @pagination[:number]).errors
-      end
     rescue ActionController::UnpermittedParameters => e
       @errors.concat Goby::Exceptions::InvalidPaginationParam.new(e.params).errors
     end

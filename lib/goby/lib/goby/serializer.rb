@@ -218,12 +218,12 @@ module Goby
       alias filter filters
       alias sort sorts
 
-      def has_one(name, options = {})
+      def one?(name, options = {})
         options[:type] = :one
         add_association(name, options)
       end
 
-      def has_many(name, options = {})
+      def many?(name, options = {})
         options[:type] = :many
         add_association(name, options)
       end
@@ -265,7 +265,7 @@ module Goby
                          serialize_collection objects, serialize_options
                        else
                          serialize_object objects, serialize_options
-        end
+                       end
 
         hash = {
           data: primary_data
