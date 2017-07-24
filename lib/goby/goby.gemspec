@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Michael Stack']
   spec.email         = ['michael.stack@gmail.com']
 
-  spec.summary       = %q{Goby, a service object based JSON-API implementation for Rails}
-  spec.description   = %q{Goby are cleaner fish, and like a cleaner fish this gem helps to clean up your models and controller of complicated business logic.}
+  spec.summary       = 'Goby, a service object based JSON-API implementation for Rails'
+  spec.description   = 'Goby are cleaner fish, and like a cleaner fish this gem helps to clean up your models and controller of complicated business logic.'
   spec.homepage      = 'https://github.com/boozallen/goby'
 
   # # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   # end
 
   spec.files         = Dir['lib/**/*.rb']
-  spec.bindir        = "exe"
+  spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 

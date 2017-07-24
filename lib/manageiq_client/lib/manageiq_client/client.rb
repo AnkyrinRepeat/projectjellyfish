@@ -36,7 +36,7 @@ module ManageIQClient
     attr_reader :collections
 
     def request(options)
-      options[:uri] = [@base_path, options[:uri]].compact.join('/').sub(/\/\z/, '')
+      options[:uri] = [@base_path, options[:uri]].compact.join('/').sub(%r{/\z}, '')
       connection.request options
     end
 

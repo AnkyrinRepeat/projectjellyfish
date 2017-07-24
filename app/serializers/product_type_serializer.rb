@@ -6,7 +6,5 @@ class ProductTypeSerializer < ApplicationSerializer
 
   has_one :provider_type
 
-  def tag_list
-    object.tag_list
-  end
+  delegate :tag_list, to: :object
 end

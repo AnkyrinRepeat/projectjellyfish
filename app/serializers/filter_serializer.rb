@@ -4,6 +4,6 @@ class FilterSerializer < ApplicationSerializer
   attributes :created_at, :updated_at
 
   def tag_list
-    object.cached_tag_list.split /,\s?/
+    object.cached_tag_list.split(/,\s?/)
   end
 end

@@ -22,7 +22,7 @@ module Goby
       def model!
         send "#{model_action}_model!"
       rescue ActiveRecord::RecordNotFound
-        raise Goby::Exceptions::RecordNotFound.new model_id
+        raise Goby::Exceptions::RecordNotFound, model_id
       end
 
       def create_model!
@@ -33,7 +33,7 @@ module Goby
         query_with(model_class).find model_id
       end
 
-      alias_method :update_model!, :find_model!
+      alias update_model! find_model!
 
       def collection_model!
         query_with model_class.all
@@ -76,19 +76,19 @@ module Goby
 
         columns = model_class.column_names.map &:to_sym
 
-        @filters.reduce(query) do |query, filter|
+        @filters.reduce(query) do |q, filter|
           key, value = filter.each_pair.first
           if columns.include? key
-            query.where filter
-          elsif query.respond_to? key
+            q.where filter
+          elsif q.respond_to? key
             # TODO: Dangerous!
             # This is dangerous! If filters are ever passed in without
             # being vetted then the following and more is possible
-            # query.public_send :destroy_all, '1=1'
-            query.public_send key, value
+            # q.public_send :destroy_all, '1=1'
+            q.public_send key, value
           else
             # Silently fail through
-            query
+            q
           end
         end
       end

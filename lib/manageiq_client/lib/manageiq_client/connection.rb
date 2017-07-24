@@ -18,14 +18,14 @@ module ManageIQClient
 
       # Make the request
       options = {
-        :expects => expects,
-        :method => method,
-        :path => uri.path + "#{"?#{uri.query}" if uri.query}",
-        :headers => headers
+        expects: expects,
+        method: method,
+        path: uri.path + ("?#{uri.query}" if uri.query).to_s,
+        headers: headers
       }
 
       unless body.nil? || body.empty?
-        options.merge!(body: body)
+        options[:body] = body
       end
 
       begin

@@ -154,7 +154,7 @@ module Goby
       attr_reader :_attributes, :_associations
 
       def _type
-        @_type ||= self.name.sub('Serializer', '').tableize
+        @_type ||= name.sub('Serializer', '').tableize
       end
 
       def type(name)
@@ -199,25 +199,24 @@ module Goby
 
       def fields(*names)
         options = names.extract_options!
-        names.each { |name| add_attribute(name, options.merge({ field: true, filter: false, sort: false })) }
+        names.each { |name| add_attribute(name, options.merge(field: true, filter: false, sort: false)) }
       end
 
       def filters(*names)
         options = names.extract_options!
-        names.each { |name| add_attribute(name, options.merge({ field: false, filter: true, sort: false })) }
+        names.each { |name| add_attribute(name, options.merge(field: false, filter: true, sort: false)) }
       end
-
 
       def sorts(*names)
         options = names.extract_options!
-        names.each { |name| add_attribute(name, options.merge({ field: false, filter: false, sort: true })) }
+        names.each { |name| add_attribute(name, options.merge(field: false, filter: false, sort: true)) }
       end
 
       # Singular aliases for convenience
-      alias_method :attribute, :attributes
-      alias_method :field, :fields
-      alias_method :filter, :filters
-      alias_method :sort, :sorts
+      alias attribute attributes
+      alias field fields
+      alias filter filters
+      alias sort sorts
 
       def has_one(name, options = {})
         options[:type] = :one
@@ -258,15 +257,14 @@ module Goby
           base_url: options[:base_url]
         }
 
-        primary_data = case
-        when options[:collection] && (objects.nil? || !objects.present?)
-          []
-        when !options[:collection] && (objects.nil? || !objects.present?)
-          nil
-        when options[:collection]
-          serialize_collection objects, serialize_options
-        else
-          serialize_object objects, serialize_options
+        primary_data = if options[:collection] && (objects.nil? || !objects.present?)
+                         []
+                       elsif !options[:collection] && (objects.nil? || !objects.present?)
+                         nil
+                       elsif options[:collection]
+                         serialize_collection objects, serialize_options
+                       else
+                         serialize_object objects, serialize_options
         end
 
         hash = {

@@ -82,11 +82,11 @@ module Goby
       controller_params_method = "#{controller_name}_params".to_sym
 
       service_params = if respond_to? action_params_method, true
-        send action_params_method
-      elsif respond_to? controller_params_method, true
-        send controller_params_method
-      else
-        params
+                         send action_params_method
+                       elsif respond_to? controller_params_method, true
+                         send controller_params_method
+                       else
+                         params
       end
 
       service_params = ActionController::Parameters.new(service_params) unless service_params.is_a? ActionController::Parameters
@@ -114,11 +114,9 @@ module Goby
           fields: request_parser.fields,
           include: request_parser.included_resources,
           base_url: base_url
-        }.merge(ResponseExtras.new(results, {
-          action: params[:action],
-          request: request_parser,
-          base_url: request.protocol + request.host_with_port + request.path
-        }).extras.merge(options))
+        }.merge(ResponseExtras.new(results, action: params[:action],
+                                            request: request_parser,
+                                            base_url: request.protocol + request.host_with_port + request.path).extras.merge(options))
       )
     rescue Goby::Exceptions::Error => e
       render_errors e.errors

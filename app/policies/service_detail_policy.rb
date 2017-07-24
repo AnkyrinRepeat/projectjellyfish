@@ -4,10 +4,10 @@ class ServiceDetailPolicy < ApplicationPolicy
   end
 
   def show?
-    is_manager? || ServiceDetail
+    manager? || ServiceDetail
       .joins(project: :memberships)
       .references(:memberships)
-      .where(memberships: { user_id: context.id}, service_id: record.service_id).exists?
+      .where(memberships: { user_id: context.id }, service_id: record.service_id).exists?
   end
 
   class Scope < Scope

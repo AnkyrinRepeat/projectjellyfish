@@ -1,5 +1,4 @@
 class ServiceRequestMailer < ApplicationMailer
-
   def admin_manager_notice(project, owner, count)
     @count = count
     @project = project

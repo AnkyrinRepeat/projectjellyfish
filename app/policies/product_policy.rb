@@ -8,14 +8,14 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def create?
-    is_manager?
+    manager?
   end
 
   def update?
-    is_manager?
+    manager?
   end
 
   def destroy?
-    is_manager?
+    manager?
   end
 end

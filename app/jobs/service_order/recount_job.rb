@@ -5,8 +5,6 @@ class ServiceOrder < ApplicationRecord
 
       if result.valid?
         # Do something
-      else
-        # Do something else
       end
     end
   end

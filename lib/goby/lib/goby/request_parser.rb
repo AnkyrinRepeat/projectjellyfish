@@ -155,7 +155,7 @@ module Goby
 
       filters.each_pair do |filter, value|
         if valid_filters.include? filter.to_sym
-         @filters << [[filter.to_sym, value]].to_h
+          @filters << [[filter.to_sym, value]].to_h
         else
           @errors.concat Goby::Exceptions::FilterNotAllowed.new(filter).errors
         end
@@ -203,7 +203,7 @@ module Goby
         @pagination[:size] = (paging[:size] || default_page_size).to_i
       end
 
-      unless max_page_size.zero? || (1..max_page_size).include?(@pagination[:size])
+      unless max_page_size.zero? || (1..max_page_size).cover?(@pagination[:size])
         @errors.concat Goby::Exceptions::InvalidPageValue.new(:size, @pagination[:size]).errors
       end
 

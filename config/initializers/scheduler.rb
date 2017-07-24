@@ -3,7 +3,7 @@ require 'rufus-scheduler'
 scheduler = Rufus::Scheduler.new
 
 # Limit scheduler to web processes only
-if File.split($0).last == 'puma'
+if File.split($PROGRAM_NAME).last == 'puma'
   # # Provider connection checks
   # #
   # # 1. Find only connected providers

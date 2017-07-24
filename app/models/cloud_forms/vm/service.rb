@@ -66,7 +66,7 @@ module CloudForms
       end
 
       def build_provision_request
-        inputs = self.settings
+        inputs = settings
 
         vm_fields = case ext_provider_type
                     when :google
@@ -109,7 +109,7 @@ module CloudForms
         response = provider.client.provision_requests.create build_provision_request
         results = response['results'].first
         self.status_message = results['message']
-        self.details['provision_request_id'] = results['id']
+        details['provision_request_id'] = results['id']
       rescue => error
         errored!
         self.status_message = error.message
@@ -121,21 +121,20 @@ module CloudForms
         # TODO: Should consider some kind of timeout
         while provisioning?
           sleep 5 # TODO: sleeping? maybe a block taking method with yield with options might be better
-          results = provider.client.provision_requests.find "#{self.details['provision_request_id']}?expand=tasks"
+          results = provider.client.provision_requests.find "#{details['provision_request_id']}?expand=tasks"
           update_attributes status_message: results['message']
-          raise results['message'] if results['status'].downcase == 'error'
+          raise results['message'] if results['status'].casecmp('error').zero?
 
           next unless results.key? 'tasks'
 
           task = results['tasks'].last
-          raise task['message'] if task['status'].downcase == 'error'
+          raise task['message'] if task['status'].casecmp('error').zero?
 
           # downcase to avoid '[fF]inished'
-          if results['request_state'].downcase == 'finished'
-            self.details['instance_id'] = task['destination_id']
-            update_status
-            done!
-          end
+          next unless results['request_state'].casecmp('finished').zero?
+          details['instance_id'] = task['destination_id']
+          update_status
+          done!
         end
       rescue => error
         errored!
@@ -146,7 +145,7 @@ module CloudForms
 
       def start_deprovisioning
         # Already retired? We're done.
-        if self.details['retired']
+        if details['retired']
           done!
           return
         end
@@ -160,7 +159,7 @@ module CloudForms
 
         self.status_message = terminate_results['message']
 
-        self.details['terminate_task_id'] = terminate_results['task_id']
+        details['terminate_task_id'] = terminate_results['task_id']
       rescue => error
         errored!
         self.status_message = error.message
@@ -177,7 +176,7 @@ module CloudForms
             task = provider.client.tasks.find details['terminate_task_id']
 
             # task['status'] could be 'Error'; Needs handling
-            if task['state'].downcase == 'finished'
+            if task['state'].casecmp('finished').zero?
               update_status
               self.status_message = task['message']
             end
@@ -197,7 +196,7 @@ module CloudForms
         update_status
       end
 
-      alias_method :check_powered_off_status, :check_powered_on_status
+      alias check_powered_off_status check_powered_on_status
 
       def start_powering_on
         if vm_on?
@@ -212,7 +211,7 @@ module CloudForms
                          provider.client.instances.start details['instance_id']
                        end
         self.status_message = task_results['message']
-        self.details['power_on_task_id'] = task_results['task_id']
+        details['power_on_task_id'] = task_results['task_id']
       rescue => error
         errored!
         self.status_message = error.message
@@ -245,7 +244,7 @@ module CloudForms
 
         self.status_message = task_results['message']
 
-        self.details['power_off_task_id'] = task_results['task_id']
+        details['power_off_task_id'] = task_results['task_id']
       end
 
       def check_powering_off_status
@@ -265,11 +264,11 @@ module CloudForms
       end
 
       def vm_on?
-        self.details['power_state'] == 'on'
+        details['power_state'] == 'on'
       end
 
       def vm_off?
-        self.details['power_state'] == 'off'
+        details['power_state'] == 'off'
       end
 
       private
@@ -283,17 +282,17 @@ module CloudForms
                              provider.client.instances.find "#{details['instance_id']}?attributes=#{attributes}"
                            end
 
-        self.details['name'] = instance_details['name']
-        self.details['vendor'] = instance_details['vendor']
-        self.details['power_state'] = instance_details['power_state'].downcase
+        details['name'] = instance_details['name']
+        details['vendor'] = instance_details['vendor']
+        details['power_state'] = instance_details['power_state'].downcase
         ips = partition_ips instance_details['ipaddresses']
-        self.details['public_ips'] = ips[1].sort
-        self.details['private_ips'] = ips[0].sort
-        self.details['disk_size'] = instance_details['provisioned_storage'].to_i / 1024 / 1024 # Returns in B, reduce to in MB
-        self.details['memory'] = instance_details['mem_cpu']
-        self.details['cpu_count'] = instance_details['num_cpu']
-        self.details['core_count'] = instance_details['cpu_total_cores']
-        self.details['retired'] = instance_details.fetch('retired', false) || instance_details['raw_power_state'].downcase == 'deleted' || !!instance_details.fetch('retirement_status', 'active')[/retir/]
+        details['public_ips'] = ips[1].sort
+        details['private_ips'] = ips[0].sort
+        details['disk_size'] = instance_details['provisioned_storage'].to_i / 1024 / 1024 # Returns in B, reduce to in MB
+        details['memory'] = instance_details['mem_cpu']
+        details['cpu_count'] = instance_details['num_cpu']
+        details['core_count'] = instance_details['cpu_total_cores']
+        details['retired'] = instance_details.fetch('retired', false) || instance_details['raw_power_state'].casecmp('deleted').zero? || instance_details.fetch('retirement_status', 'active')[/retir/]
 
         details_will_change!
 
@@ -303,17 +302,15 @@ module CloudForms
         when 'off'
           power_off
         when 'unknown'
-          self.details['retired'] = true
+          details['retired'] = true
           power_off
-        else
-          # noop
         end
 
-        if self.details['retired']
+        if details['retired']
           deprovision
         end
 
-        save if changed?
+        save
       end
 
       def generate_vm_name(provider_type)
@@ -339,7 +336,7 @@ module CloudForms
       # Some helper methods that make determining what actions or external calls to make easier.
 
       def ext_provider
-        @_ext_provider ||= ProviderData.find_by(provider_id: self.provider_id, ext_id: self.settings['provider_ext_id'], data_type: 'provider')
+        @_ext_provider ||= ProviderData.find_by(provider_id: provider_id, ext_id: settings['provider_ext_id'], data_type: 'provider')
       end
 
       def ext_provider_type
@@ -347,7 +344,7 @@ module CloudForms
       end
 
       def ext_template
-        @_ext_template ||= ProviderData.find_by(provider_id: self.provider_id, ext_id: self.settings['template_ext_id'], data_type: 'template')
+        @_ext_template ||= ProviderData.find_by(provider_id: provider_id, ext_id: settings['template_ext_id'], data_type: 'template')
       end
     end
   end

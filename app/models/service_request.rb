@@ -43,7 +43,7 @@ class ServiceRequest < ApplicationRecord
 
   # Optional: Override in each service request to customize service class name
   def self.service_class
-    self.to_s.sub(/Request\z/, '').constantize
+    to_s.sub(/Request\z/, '').constantize
   end
 
   # Optional: Override in each service request to define a validation schema for settings

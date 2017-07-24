@@ -24,20 +24,20 @@ class Membership < ApplicationRecord
       validate role_permitted?: :role do |role|
         membership = Membership.where(project_id: model.project_id, user_id: context.id).first
 
-        if membership.nil?
-          allowed_roles = %w(user manager)
-        else
-          allowed_roles = case membership.role
-          when 'owner'
-            %w(owner admin manager user)
-          when 'admin'
-            %w(admin manager user)
-          when 'manager'
-            %w(manager user)
-          else
-            %w(user)
-          end
-        end
+        allowed_roles = if membership.nil?
+                          %w(user manager)
+                        else
+                          case membership.role
+                          when 'owner'
+                            %w(owner admin manager user)
+                          when 'admin'
+                            %w(admin manager user)
+                          when 'manager'
+                            %w(manager user)
+                          else
+                            %w(user)
+                          end
+                        end
 
         allowed_roles.include? role
       end

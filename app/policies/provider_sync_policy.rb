@@ -1,5 +1,5 @@
 class ProviderSyncPolicy < ApplicationPolicy
   def create?
-    is_admin?
+    admin?
   end
 end

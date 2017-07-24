@@ -1,7 +1,7 @@
 class ApplicationPolicy
   attr_reader :context, :record
-  alias_method :user, :context
-  alias_method :object, :record
+  alias user context
+  alias object record
 
   def initialize(context, record)
     @context = context
@@ -11,7 +11,7 @@ class ApplicationPolicy
   def index?
     false
   end
-  alias_method :search?, :index?
+  alias search? index?
 
   def show?
     false
@@ -31,7 +31,7 @@ class ApplicationPolicy
 
   class Scope
     attr_reader :context, :scope
-    alias_method :user, :context
+    alias user context
 
     def initialize(context, scope)
       @context = context
@@ -45,11 +45,11 @@ class ApplicationPolicy
 
   private
 
-  def is_manager?
+  def manager?
     context&.active? && (context.manager? || context.admin?)
   end
 
-  def is_admin?
+  def admin?
     context&.active? && context.admin?
   end
 

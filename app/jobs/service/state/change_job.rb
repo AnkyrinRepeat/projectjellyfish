@@ -5,9 +5,9 @@ class Service < ApplicationRecord
 
       rescue_from StandardError do |error|
         if retries_count < MAX_TRIES
-          retry_job wait: WAIT ** retries_count
+          retry_job wait: WAIT**retries_count
         else
-          fail error
+          raise error
         end
       end
 

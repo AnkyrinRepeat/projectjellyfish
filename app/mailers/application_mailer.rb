@@ -3,7 +3,7 @@ class ApplicationMailer < ActionMailer::Base
 
   before_action :setup_mailer
   # Set the default sender; Change as needed in each mailer method
-  default from: Proc.new { AppSetting.current.mail_sender }
+  default from: proc { AppSetting.current.mail_sender }
 
   def setup_mailer
     settings = AppSetting.current
@@ -15,11 +15,9 @@ class ApplicationMailer < ActionMailer::Base
     }
 
     unless settings.mail_username.blank?
-      mail.settings.merge!({
-        user_name: settings.mail_username,
-        password: settings.mail_password,
-        authentication: settings.mail_authentication
-      })
+      mail.settings.merge!(user_name: settings.mail_username,
+                           password: settings.mail_password,
+                           authentication: settings.mail_authentication)
     end
 
     # Should be little need to override any of these settings in the mailer methods

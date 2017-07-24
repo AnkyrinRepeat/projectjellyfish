@@ -34,10 +34,10 @@ class ServiceDetailSerializer < ApplicationSerializer
   end
 
   def tag_list
-    object.tag_list.split /,\s?/
+    object.tag_list.split(/,\s?/)
   end
 
   def actions
-    object.actions.split /,\s?/
+    object.actions.split(/,\s?/)
   end
 end

@@ -4,28 +4,28 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    is_admin? || is_self?
+    admin? || self?
   end
 
   def create?
-    is_admin?
+    admin?
   end
 
   def create_action?
-    is_admin?
+    admin?
   end
 
   def update?
-    is_admin? || is_self?
+    admin? || self?
   end
 
   def destroy?
-    is_admin? && !is_self?
+    admin? && !self?
   end
 
   private
 
-  def is_self?
-    user.id === record.id
+  def self?
+    user.id == record.id
   end
 end

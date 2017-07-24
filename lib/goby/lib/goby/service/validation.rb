@@ -14,7 +14,7 @@ module Goby
 
         unless result.success? || raise == false
           errors = result.message_set.failures.map { |e| { path: error_nesting.concat(e.path), predicate: e.predicate, text: e.text } }
-          raise Goby::Exceptions::ValidationErrors.new(errors)
+          raise Goby::Exceptions::ValidationErrors, errors
         end
 
         result

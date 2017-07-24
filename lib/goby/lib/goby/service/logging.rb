@@ -9,8 +9,8 @@ module Goby
         around_perform do |service, block, _|
           tag_logger(service.class.name) do
             payload = { service: service }
-            ActiveSupport::Notifications.instrument("perform_start.goby_service", payload.dup)
-            ActiveSupport::Notifications.instrument("perform.goby_service", payload) do
+            ActiveSupport::Notifications.instrument('perform_start.goby_service', payload.dup)
+            ActiveSupport::Notifications.instrument('perform.goby_service', payload) do
               block.call
             end
           end
@@ -21,7 +21,7 @@ module Goby
 
       def tag_logger(*tags)
         if logger.respond_to?(:tagged)
-          tags.unshift "Goby::Service" unless logger_tagged_by_goby_service?
+          tags.unshift 'Goby::Service' unless logger_tagged_by_goby_service?
           logger.tagged(*tags) { yield }
         else
           yield
@@ -29,7 +29,7 @@ module Goby
       end
 
       def logger_tagged_by_goby_service?
-        logger.formatter.current_tags.include?("Goby::Service")
+        logger.formatter.current_tags.include?('Goby::Service')
       end
 
       class LogSubscriber < ActiveSupport::LogSubscriber

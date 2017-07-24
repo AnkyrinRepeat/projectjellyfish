@@ -1,9 +1,9 @@
 class ProviderTypePolicy < ApplicationPolicy
   def search?
-    is_admin?
+    admin?
   end
 
   def show?
-    is_admin?
+    admin?
   end
 end

@@ -4,7 +4,7 @@ class ServiceRequestPolicy < ApplicationPolicy
   end
 
   def show?
-    is_manager? || owns_object?
+    manager? || owns_object?
   end
 
   def create?
@@ -12,16 +12,16 @@ class ServiceRequestPolicy < ApplicationPolicy
   end
 
   def update?
-    is_manager? || owns_object?
+    manager? || owns_object?
   end
 
   def approval?
-    is_manager?
+    manager?
   end
 
   def destroy?
     return false if object.approved?
-    owns_object? || is_admin?
+    owns_object? || admin?
   end
 
   class Scope < Scope

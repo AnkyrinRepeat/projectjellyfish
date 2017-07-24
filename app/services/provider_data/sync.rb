@@ -17,7 +17,7 @@ class ProviderData < ApplicationRecord
       ProviderData.with_advisory_lock("provider-data-sync-#{model.id}", timeout_seconds: 0) do
         model.sync_provider_data
       end
-    rescue
+      # rescue
       # TODO: Handle failure; log it, reschedule it, ...
       # If it failed to sync don't try again.
     ensure

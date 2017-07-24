@@ -1,5 +1,4 @@
 class UserMailer < ApplicationMailer
-
   def registration(user)
     mail to: user.email
   end

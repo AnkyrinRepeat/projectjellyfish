@@ -19,11 +19,11 @@ redis_config[:namespace] = 'api:cache'
 redis_config[:expires_in] = 1.week
 
 redis_config[:url] = if ENV.key? 'REDIS_URL'
-  ENV['REDIS_URL']
-elsif ENV.key? 'REDIS_HOST'
-  "redis://#{ENV['REDIS_HOST']}:#{ENV.fetch('REDIS_PORT', 6379)}"
-else
-  'redis://127.0.0.1:6379'
-end
+                       ENV['REDIS_URL']
+                     elsif ENV.key? 'REDIS_HOST'
+                       "redis://#{ENV['REDIS_HOST']}:#{ENV.fetch('REDIS_PORT', 6379)}"
+                     else
+                       'redis://127.0.0.1:6379'
+                     end
 
 Server::Application.config.cache_store = :redis_store, redis_config

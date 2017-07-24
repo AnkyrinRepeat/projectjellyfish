@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Michael Stack']
   spec.email         = ['stack_michael@bah.com']
 
-  spec.summary       = %q{ManageIQ API Client}
-  spec.description   = %q{ManageIQ API Client built using Excon.}
+  spec.summary       = 'ManageIQ API Client'
+  spec.description   = 'ManageIQ API Client built using Excon.'
   spec.homepage      = 'https://github.com/boozallen/manageiq-client'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

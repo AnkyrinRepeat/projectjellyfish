@@ -15,7 +15,7 @@ class Provider < ApplicationRecord
       model.status_message = error.message
       model.credentials_message = 'validation failed'
     ensure
-      model.credentials_validated_at = DateTime.now
+      model.credentials_validated_at = DateTime.now.utc
       model.save
       ProviderMailer.disconnected(model).deliver_later unless model.connected
     end

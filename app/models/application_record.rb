@@ -7,7 +7,7 @@ class ApplicationRecord < ActiveRecord::Base
     EMAIL_REGEXP = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/
     EMAIL = String.constructor { |value| value.to_s.downcase.strip unless value.nil? }
 
-    HOST_REGEXP = /\Ahttps?:\/\/.+/i
+    HOST_REGEXP = %r{\Ahttps?://.+}i
     HOST = String.constructor { |value| value.to_s.downcase.strip unless value.nil? }
 
     UUID_REGEXP = /\A[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/

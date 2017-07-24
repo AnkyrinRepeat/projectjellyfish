@@ -16,11 +16,11 @@ class Product < ApplicationRecord
 
   # Expect an array of [exclude::boolean, tags::text]
   # Example [[false, 'tagged,with,any'], [true, 'not,tagged,with']]
-  scope :policy, -> (filters) do
+  scope :policy, lambda { |filters|
     filters.inject(all) do |query, filter|
       filter[0] ? query.not_tagged_with(filter[0]) : query.tagged_with_any(filter[1])
     end
-  end
+  }
 
   pg_search_scope :search, against: %i(name description cached_tag_list), using: {
     tsearch: {

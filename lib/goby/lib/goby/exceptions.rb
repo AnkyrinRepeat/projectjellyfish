@@ -26,10 +26,10 @@ module Goby
         end
 
         [Goby::Error.new(code: 'INTERNAL_SERVER_ERROR',
-          status: :internal_server_error,
-          title: 'Internal Server Error',
-          detail: 'Internal Server Error',
-          meta: meta)]
+                         status: :internal_server_error,
+                         title: 'Internal Server Error',
+                         detail: 'Internal Server Error',
+                         meta: meta)]
       end
     end
 
@@ -43,10 +43,10 @@ module Goby
       def errors
         @errors ||= error_data.map do |error|
           Goby::Error.new(status: :unprocessable_entity,
-            code: error[:predicate].to_s.sub(/\?\z/, ''),
-            title: 'Validation Error',
-            source: { pointer: '/'+error[:path].join('/') },
-            detail: error[:text])
+                          code: error[:predicate].to_s.sub(/\?\z/, ''),
+                          title: 'Validation Error',
+                          source: { pointer: '/' + error[:path].join('/') },
+                          detail: error[:text])
         end
       end
     end
@@ -61,10 +61,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :unauthorized,
-          code: 'AUTHORIZATION_ERROR',
-          title: 'Not Authorized',
-          detail: "You do not have permission to call `#{action}` on `#{resource_type}`"
-        )]
+                         code: 'AUTHORIZATION_ERROR',
+                         title: 'Not Authorized',
+                         detail: "You do not have permission to call `#{action}` on `#{resource_type}`")]
       end
     end
 
@@ -77,10 +76,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_RESOURCE',
-          title: 'Invalid Resource',
-          detail: "`#{resource_type}` is not a valid resource"
-        )]
+                         code: 'INVALID_RESOURCE',
+                         title: 'Invalid Resource',
+                         detail: "`#{resource_type}` is not a valid resource")]
       end
     end
 
@@ -94,31 +92,28 @@ module Goby
 
       def errors
         [Goby::Error.new(status: path.nil? ? :not_found : :unprocessable_entity,
-          code: 'RECORD_NOT_FOUND',
-          title: 'Record Not Found',
-          detail: "The record identified by `#{id}` could not be found",
-          source: (path ? { pointer: path } : nil)
-        )]
+                         code: 'RECORD_NOT_FOUND',
+                         title: 'Record Not Found',
+                         detail: "The record identified by `#{id}` could not be found",
+                         source: (path ? { pointer: path } : nil))]
       end
     end
 
     class RecordNotUnique < Error
       def errors
         [Goby::Error.new(status: :unprocessable_entity,
-          code: 'RECORD_NOT_UNIQUE',
-          title: 'Record Not Unique',
-          detail: 'The record parameters have violated a unique constraint'
-        )]
+                         code: 'RECORD_NOT_UNIQUE',
+                         title: 'Record Not Unique',
+                         detail: 'The record parameters have violated a unique constraint')]
       end
     end
 
     class InvalidFieldsFormat < Error
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_FIELDS_FORMAT',
-          title: 'Invalid fields format',
-          detail: 'Must specify a resource type and selected fields'
-        )]
+                         code: 'INVALID_FIELDS_FORMAT',
+                         title: 'Invalid fields format',
+                         detail: 'Must specify a resource type and selected fields')]
       end
     end
 
@@ -132,10 +127,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_FIELD',
-          title: 'Invalid field',
-          detail: "`#{field}` is not a valid field for #{type}"
-        )]
+                         code: 'INVALID_FIELD',
+                         title: 'Invalid field',
+                         detail: "`#{field}` is not a valid field for #{type}")]
       end
     end
 
@@ -149,10 +143,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_INCLUDE',
-          title: 'Invalid include',
-          detail: "`#{association}` is not a valid relationship of #{type}"
-        )]
+                         code: 'INVALID_INCLUDE',
+                         title: 'Invalid include',
+                         detail: "`#{association}` is not a valid relationship of #{type}")]
       end
     end
 
@@ -165,10 +158,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_FILTERS_FORMAT',
-          title: 'Invalid filters format',
-          detail: "`#{filters}` is not a valid format for filtering"
-        )]
+                         code: 'INVALID_FILTERS_FORMAT',
+                         title: 'Invalid filters format',
+                         detail: "`#{filters}` is not a valid format for filtering")]
       end
     end
 
@@ -181,10 +173,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'FILTER_NOT_ALLOWED',
-          title: 'Filter not allowed',
-          detail: "`#{filter}` can not be used to filter"
-        )]
+                         code: 'FILTER_NOT_ALLOWED',
+                         title: 'Filter not allowed',
+                         detail: "`#{filter}` can not be used to filter")]
       end
     end
 
@@ -198,10 +189,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_SORT',
-          title: 'Invalid sort',
-          detail: "`#{sort}` is not a valid sort criteria for #{resource}"
-        )]
+                         code: 'INVALID_SORT',
+                         title: 'Invalid sort',
+                         detail: "`#{sort}` is not a valid sort criteria for #{resource}")]
       end
     end
 
@@ -215,10 +205,9 @@ module Goby
       def errors
         params.map do |param|
           Goby::Error.new(status: :bad_request,
-            code: 'INVALID_PAGINATION_PARAM',
-            title: 'Invalid pagination parameter',
-            detail: "`#{param}` is not an allowed page parameter"
-          )
+                          code: 'INVALID_PAGINATION_PARAM',
+                          title: 'Invalid pagination parameter',
+                          detail: "`#{param}` is not an allowed page parameter")
         end
       end
     end
@@ -233,10 +222,9 @@ module Goby
 
       def errors
         [Goby::Error.new(status: :bad_request,
-          code: 'INVALID_PAGE_VALUE',
-          title: 'Invalid page value',
-          detail: "`#{value}` is not a valid value for `#{parem}` page parameter"
-        )]
+                         code: 'INVALID_PAGE_VALUE',
+                         title: 'Invalid page value',
+                         detail: "`#{value}` is not a valid value for `#{parem}` page parameter")]
       end
     end
   end

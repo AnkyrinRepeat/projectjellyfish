@@ -1,3 +1,2 @@
 class RemoteAuthSession < Session
-
 end

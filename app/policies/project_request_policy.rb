@@ -4,7 +4,7 @@ class ProjectRequestPolicy < ApplicationPolicy
   end
 
   def show?
-    owns_object? || is_manager?
+    owns_object? || manager?
   end
 
   def create?
@@ -12,15 +12,15 @@ class ProjectRequestPolicy < ApplicationPolicy
   end
 
   def update?
-    owns_object? || is_manager?
+    owns_object? || manager?
   end
 
   def approval?
-    is_manager?
+    manager?
   end
 
   def destroy?
-    is_manager?
+    manager?
   end
 
   class Scope < Scope

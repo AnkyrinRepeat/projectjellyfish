@@ -46,7 +46,7 @@ class Provider < ApplicationRecord
   end
 
   # This is here because of a bug : https://github.com/mbleigh/acts-as-taggable-on/issues/432
-  def self.caching_tag_list_on?(context)
+  def self.caching_tag_list_on?(_context)
     true
   end
 

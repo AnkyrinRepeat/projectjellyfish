@@ -27,7 +27,6 @@ class RemoteAuthSession
 
     def perform
       validate do
-
         UserMailer.welcome(model.name, model.email).deliver_later unless model.persisted?
 
         model.last_login_at = DateTime.current
@@ -44,9 +43,9 @@ class RemoteAuthSession
         # Bypassing state machine activation actions and marking user as active
         u.state = 'active'
       end
-    rescue => e
-      raise Goby::Exceptions::ValidationErrors.new [{ path: %w(data attributes email), predicate: 'email',
-        text: 'Could not authenticate user' }]
+    rescue
+      raise Goby::Exceptions::ValidationErrors, [{ path: %w(data attributes email), predicate: 'email',
+                                                   text: 'Could not authenticate user' }]
     end
 
     def login_info

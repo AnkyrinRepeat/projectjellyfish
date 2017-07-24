@@ -4,7 +4,7 @@ class MemberPolicy < ApplicationPolicy
   end
 
   def show?
-    owns_object? || is_manager? || Member
+    owns_object? || manager? || Member
       .joins(project: :memberships)
       .references(:memberships)
       .where(memberships: { user_id: context.id, role: [Membership.roles[:admin], Membership.roles[:owner]] }, id: record.id).exists?

@@ -8,17 +8,17 @@ class FilterPolicy < ApplicationPolicy
   end
 
   def create?
-    # TODO Enforce permission checks
+    # TODO: Enforce permission checks
     true
   end
 
   def update?
-    # TODO Enforce permission checks
+    # TODO: Enforce permission checks
     true
   end
 
   def destroy?
-    # TODO Enforce permission checks
+    # TODO: Enforce permission checks
     true
   end
 

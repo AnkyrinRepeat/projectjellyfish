@@ -4,17 +4,17 @@ class ServicePolicy < ApplicationPolicy
   end
 
   def show?
-    is_manager? || Service
+    manager? || Service
       .joins(service_request: { project: :memberships })
       .references(:memberships)
-      .where(memberships: { user_id: context.id}, id: record.id).exists?
+      .where(memberships: { user_id: context.id }, id: record.id).exists?
   end
 
   def update?
-    is_manager? || Service
+    manager? || Service
       .joins(service_request: { project: :memberships })
       .references(:memberships)
-      .where(memberships: { user_id: context.id}, id: record.id).exists?
+      .where(memberships: { user_id: context.id }, id: record.id).exists?
   end
 
   class Scope < Scope

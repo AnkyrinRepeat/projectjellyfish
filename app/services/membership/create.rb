@@ -43,7 +43,7 @@ class Membership < ApplicationRecord
         model.update params[:data][:attributes]
       end
     rescue ActiveRecord::RecordNotUnique
-      raise Goby::Exceptions::RecordNotUnique.new
+      raise Goby::Exceptions::RecordNotUnique.new, '/data/attributes'
     end
 
     private

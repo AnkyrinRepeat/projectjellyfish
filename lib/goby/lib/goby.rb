@@ -29,7 +29,7 @@ require 'goby/service/validation'
 
 require 'goby/request_parser'
 require 'goby/response_extras'
-#require 'goby/resource_links'
+# require 'goby/resource_links'
 require 'goby/serializer'
 require 'goby/controller'
 require 'goby/railtie' if defined?(Rails)

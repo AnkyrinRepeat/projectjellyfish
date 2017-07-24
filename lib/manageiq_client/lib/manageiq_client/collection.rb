@@ -7,7 +7,7 @@ module ManageIQClient
 
     def initialize(connection, definition)
       @connection = connection
-      @base_path = URI.parse(definition['href']).path.gsub /\/\z/, ''
+      @base_path = URI.parse(definition['href']).path.gsub %r{/\z}, ''
     end
 
     def find(*args)
@@ -17,7 +17,7 @@ module ManageIQClient
       request options.merge uri: id
     end
 
-    def discover_api()
+    def discover_api
       actions = discover
       return self unless actions.key? 'actions'
 
@@ -61,7 +61,7 @@ module ManageIQClient
     def paginate(uri = '', offset: 0, limit: 50, **options)
       loops = 0
 
-      fail StandardError, 'Limit must be between 1 and 100' unless limit >= 1 && limit <= 100
+      raise StandardError, 'Limit must be between 1 and 100' unless limit >= 1 && limit <= 100
 
       loop do
         request_offset = offset + (limit * loops)
@@ -78,7 +78,7 @@ module ManageIQClient
     attr_reader :connection
 
     def request(options)
-      options[:uri] = [@base_path, options[:uri]].compact.join('/').sub(/\/\z/, '')
+      options[:uri] = [@base_path, options[:uri]].compact.join('/').sub(%r{/\z}, '')
       connection.request options
     end
   end

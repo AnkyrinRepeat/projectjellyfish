@@ -1,5 +1,5 @@
 class AppSetting < ApplicationRecord
-  CACHE_KEY = 'app_settings'
+  CACHE_KEY = 'app_settings'.freeze
 
   after_commit do
     begin

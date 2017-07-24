@@ -5,7 +5,7 @@ class ServiceOrder < ApplicationRecord
     model ServiceOrder, :find
 
     def perform
-      groups = model.service_requests.group_by { |request| request.state }
+      groups = model.service_requests.group_by(&:state)
 
       model.approved_count = groups['approved'].length if groups.key? 'approved'
       model.denied_count = groups['denied'].length if groups.key? 'denied'

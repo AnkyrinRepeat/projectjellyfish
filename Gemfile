@@ -6,7 +6,7 @@ gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.18'
 gem 'pg_search', '~> 1.0.0' # Postgres Fulltext searching
 gem 'scenic', '~> 1.3.0' # Postgres view management
-gem 'with_advisory_lock', '~> 3.1.0'  # Allow application level locks
+gem 'with_advisory_lock', '~> 3.1.0' # Allow application level locks
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

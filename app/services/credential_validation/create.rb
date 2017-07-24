@@ -33,10 +33,10 @@ class CredentialValidation
     def model!
       model = CredentialValidation.new
       model.provider = if params[:data][:id]
-        Provider.find params[:data][:id]
-      else
-        provider_type.class.provider_class.new
-      end
+                         Provider.find params[:data][:id]
+                       else
+                         provider_type.class.provider_class.new
+                       end
 
       model
     end
