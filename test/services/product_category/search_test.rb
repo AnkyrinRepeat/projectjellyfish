@@ -19,8 +19,8 @@ class ProductCategory::SearchTest < ActiveSupport::TestCase
     result = ProductCategory::Search.run(context: @context, params: @params)
 
     assert result.valid?
-    productCategory = ProductCategory.order(name: :asc).first
-    assert_equal productCategory.name, result.model.first.name
+    product_category = ProductCategory.order(name: :asc).first
+    assert_equal product_category.name, result.model.first.name
   end
 
   test 'should allow reverse sorting' do

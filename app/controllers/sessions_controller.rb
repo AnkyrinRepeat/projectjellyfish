@@ -6,8 +6,8 @@ class SessionsController < ApplicationController
   def create
     handle Session::Create do |success|
       @current_user = success.model
-      response.headers['Authorization'] = success.model.session.token
-      render_results success.model
+      response.headers['Authorization'] = @current_user.session.token
+      render_results @current_user
     end
   end
 

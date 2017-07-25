@@ -2,7 +2,7 @@ module ActiveJobRetriesCount
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :retries_count
+    attr_reader :retries_count
   end
 
   def initialize(*arguments)
