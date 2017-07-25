@@ -77,6 +77,8 @@ module Goby
     end
 
     def parse_fields(fields, action)
+      return if fields.nil?
+
       @fields = {}
 
       unless fields.is_a? ActionController::Parameters

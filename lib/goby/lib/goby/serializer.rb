@@ -218,12 +218,12 @@ module Goby
       alias filter filters
       alias sort sorts
 
-      def one?(name, options = {})
+      def has_one(name, options = {})
         options[:type] = :one
         add_association(name, options)
       end
 
-      def many?(name, options = {})
+      def has_many(name, options = {})
         options[:type] = :many
         add_association(name, options)
       end
