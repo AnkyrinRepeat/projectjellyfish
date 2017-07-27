@@ -36,12 +36,12 @@ class RemoteAuthSession
     end
 
     def find_model!
-      User.find_or_initialize_by(email: params[:remote_user]) do |u|
-        u.name = params[:name]
+      User.find_or_initialize_by(email: params[:remote_user]) do |user|
+        user.name = params[:name]
         # adding a random password since the user model requires a password
-        u.password = u.password_confirmation = SecureRandom.base64(12)
+        user.password = user.password_confirmation = SecureRandom.base64(12)
         # Bypassing state machine activation actions and marking user as active
-        u.state = 'active'
+        user.state = 'active'
       end
     rescue
       raise Goby::Exceptions::ValidationErrors, [{ path: %w(data attributes email), predicate: 'email',

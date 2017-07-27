@@ -6,9 +6,33 @@ IrresponsibleModule:
   enabled: false
 
 DuplicateMethodCall:
-  max_calls: 2
+  max_calls: 5
+
+TooManyStatements:
+  max_statements: 18
+
+TooManyInstanceVariables:
+  max_instance_variables: 6
+
+TooManyConstants:
+  max_constants: 8
+
+UncommunicativeVariableName:
+  accept: ['k', 'e']
 
 UtilityFunction:
+  enabled: false
+
+FeatureEnvy:
+  enabled: false
+
+PrimaDonnaMethod:
+  enabled: false
+
+NilCheck:
+  enabled: false
+
+ControlParameter:
   enabled: false
 
 ClassVariable:
@@ -38,5 +62,7 @@ DataClump:
 
 # Directories below will not be scanned at all
 exclude_paths:
-  - lib/legacy
-  - lib/rake/legacy_tasks
+  - lib/goby
+  - lib/manageiq_client
+  - db
+

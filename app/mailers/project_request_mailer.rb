@@ -11,12 +11,12 @@ class ProjectRequestMailer < ApplicationMailer
   def approved(project_request)
     @project_request = project_request
     @site_url = Rails.application.routes.url_helpers.root_url
-    mail to: @project_request.user.email, subject: default_i18n_subject(name: @project_request.name)
+    mail to: project_request.user.email, subject: default_i18n_subject(name: project_request.name)
   end
 
   def denied(project_request)
     @project_request = project_request
     @site_url = Rails.application.routes.url_helpers.root_url
-    mail to: @project_request.user.email, subject: default_i18n_subject(name: @project_request.name)
+    mail to: project_request.user.email, subject: default_i18n_subject(name: project_request.name)
   end
 end

@@ -29,7 +29,7 @@ class Product < ApplicationRecord
       schema = model.class.settings_schema :update
       nesting = %i(data attributes settings)
       validate params[:data][:attributes][:settings], schema: schema, error_nesting: nesting do |settings|
-        model.assign_attributes params[:data][:attributes].tap { |d| d.delete :settings }
+        model.assign_attributes params[:data][:attributes].tap { |attribute| attribute.delete :settings }
         model.update settings
       end
     end

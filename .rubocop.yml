@@ -7,6 +7,7 @@ AllCops:
     - lib/tasks/sample.rake
     - lib/jellyfish_fog_aws/spec/dummy/**/*
     - lib/manageiq_client/lib/manageiq-client.rb
+    - lib/goby/**/*
     - test/**/*
   TargetRubyVersion: 2.3
 

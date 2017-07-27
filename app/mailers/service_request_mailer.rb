@@ -7,7 +7,7 @@ class ServiceRequestMailer < ApplicationMailer
 
     bcc_list = User.where(role: [:manager, :admin], state: :active).pluck(:email)
 
-    mail bcc: bcc_list, subject: "Service #{'request'.pluralize(@count)} created by #{@owner.name} for #{@project.name}"
+    mail bcc: bcc_list, subject: "Service #{'request'.pluralize(count)} created by #{owner.name} for #{project.name}"
   end
 
   def owner_notice(project, owner, count)
@@ -15,20 +15,20 @@ class ServiceRequestMailer < ApplicationMailer
     @project = project
     @owner = owner
 
-    mail to: @owner.email, subject: "You have created #{@count} service #{'request'.pluralize(@count)} for #{@project.name}"
+    mail to: owner.email, subject: "You have created #{count} service #{'request'.pluralize(count)} for #{project.name}"
   end
 
   def approval(service_request)
     @service_request = service_request
     @owner = service_request.user
 
-    mail to: @owner.email, subject: default_i18n_subject(service_name: service_request.service_name)
+    mail to: service_request.user.email, subject: default_i18n_subject(service_name: service_request.service_name)
   end
 
   def denial(service_request)
     @service_request = service_request
     @owner = service_request.user
 
-    mail to: @owner.email, subject: default_i18n_subject(service_name: service_request.service_name)
+    mail to: service_request.user.email, subject: default_i18n_subject(service_name: service_request.service_name)
   end
 end

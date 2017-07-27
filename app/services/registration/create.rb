@@ -15,7 +15,7 @@ module Registration
     def perform
       run_service User::Create do |success|
         @model = success.model
-        send_registration_email(@model)
+        send_registration_email(success.model)
       end
     end
 

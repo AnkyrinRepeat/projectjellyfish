@@ -23,8 +23,8 @@ module Server
     # -- all .rb files in that directory are automatically loaded.
 
     # Avoid integer ids
-    config.generators do |g|
-      g.orm :active_record, primary_key_type: :uuid
+    config.generators do |generator|
+      generator.orm :active_record, primary_key_type: :uuid
     end
 
     # Keep schema as SQL

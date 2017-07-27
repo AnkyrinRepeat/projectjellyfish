@@ -1,8 +1,9 @@
+require 'pry'
 class Session
   include ActiveModel::Model
 
   attr_accessor :user
-  attr_accessor :token
+  attr_reader :token
 
   def token
     return @token unless @token.nil?

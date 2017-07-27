@@ -82,7 +82,7 @@ class Product::CreateTest < ActiveSupport::TestCase
     user = users :manager
 
     context = user
-    params = { data: { type: 'products', attributes: @attributes.tap { |a| a.delete :name } } }
+    params = { data: { type: 'products', attributes: @attributes.tap { |attrib| attrib.delete :name } } }
     result = Product::Create.run(context: context, params: params)
 
     assert_equal false, result.valid?
@@ -96,7 +96,7 @@ class Product::CreateTest < ActiveSupport::TestCase
     user = users :manager
 
     context = user
-    params = { data: { type: 'products', attributes: @attributes.tap { |a| a.delete :settings } } }
+    params = { data: { type: 'products', attributes: @attributes.tap { |attrib| attrib.delete :settings } } }
     result = Product::Create.run(context: context, params: params)
 
     assert_equal false, result.valid?
@@ -125,7 +125,7 @@ class Product::CreateTest < ActiveSupport::TestCase
     user = users :manager
 
     context = user
-    params = { data: { type: 'products', attributes: @attributes.tap { |a| a.delete :description } } }
+    params = { data: { type: 'products', attributes: @attributes.tap { |attrib| attrib.delete :description } } }
     result = Product::Create.run(context: context, params: params)
 
     assert_equal true, result.valid?
@@ -163,7 +163,7 @@ class Product::CreateTest < ActiveSupport::TestCase
     user = users :manager
 
     context = user
-    params = { data: { type: 'products', attributes: @attributes.tap { |a| a.delete :tag_list } } }
+    params = { data: { type: 'products', attributes: @attributes.tap { |attrib| attrib.delete :tag_list } } }
     result = Product::Create.run(context: context, params: params)
 
     assert_equal true, result.valid?

@@ -6,7 +6,7 @@ class UserMailer < ApplicationMailer
   def approval(user)
     @user = user
 
-    mail to: @user.email
+    mail to: user.email
   end
 
   def welcome(name, email)
