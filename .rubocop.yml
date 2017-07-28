@@ -7,7 +7,6 @@ AllCops:
     - lib/tasks/sample.rake
     - lib/jellyfish_fog_aws/spec/dummy/**/*
     - lib/manageiq_client/lib/manageiq-client.rb
-    - lib/goby/**/*
     - test/**/*
   TargetRubyVersion: 2.3
 
@@ -56,12 +55,16 @@ Style/MultilineMethodCallIndentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/PredicateName:
+  NameWhitelist:
+    - has_one
+    - has_many
 
 Metrics/CyclomaticComplexity:
   Max: 8
 
 Metrics/PerceivedComplexity:
-  Max: 8
+  Max: 9
 
 Metrics/AbcSize:
   Enabled: false

@@ -54,7 +54,7 @@ module Goby
 
     # Override to further limit the available includes based on object and context
     def available_includes
-      self.class.available_includes context, :serializing
+      self.class.available_includes context, :serializing || []
     end
 
     def relationship_related_link(association_name)
@@ -91,53 +91,57 @@ module Goby
 
       hash = {}
 
-      valid_includes = available_includes || []
-
       _associations.each do |name, options|
         key = options[:as] || name
 
         next unless @includes.include? key
-        raise Goby::Exceptions::InvalidInclude.new(_type, key) unless valid_includes.include?(key)
+        raise Goby::Exceptions::InvalidInclude.new(_type, key) unless available_includes.include?(key)
 
-        relationship = {}
-
-        if options[:link]
-          relationship[:links] = {}
-          relationship[:links][:related] = relationship_related_link(name)
-        end
-
-        if options[:type] == :one
-          related_object = object_value(name, options)
-
-          if related_object.nil?
-            relationship[:data] = nil
-          else
-            relationship[:data] = {}
-
-            related_serializer = Goby::Serializer.find_serializer(related_object, @options)
-
-            relationship[:data][:id] = related_serializer._id
-            relationship[:data][:type] = related_serializer._type
-          end
-        else
-          related_objects = object_value(name, options)
-
-          relationship[:data] = []
-
-          related_objects.each do |related_object|
-            related_serializer = Goby::Serializer.find_serializer(related_object, @options)
-
-            relationship[:data] << {
-              id: related_serializer._id,
-              type: related_serializer._type
-            }
-          end
-        end
+        relationship = create_relationship(name, options)
 
         hash[key] = relationship unless relationship.empty?
       end
 
       hash
+    end
+
+    def create_relationship(name, options)
+      relationship = {}
+
+      if options[:link]
+        relationship[:links] = {}
+        relationship[:links][:related] = relationship_related_link(name)
+      end
+
+      if options[:type] == :one
+        related_object = object_value(name, options)
+
+        if related_object.nil?
+          relationship[:data] = nil
+        else
+          relationship[:data] = {}
+
+          related_serializer = Goby::Serializer.find_serializer(related_object, @options)
+
+          relationship[:data][:id] = related_serializer._id
+          relationship[:data][:type] = related_serializer._type
+        end
+      else
+        related_objects = object_value(name, options)
+
+        relationship[:data] = []
+
+        related_objects.each do |object|
+          related_serializer = Goby::Serializer.find_serializer(object, @options)
+
+          relationship[:data] << {
+            id: related_serializer._id,
+            type: related_serializer._type
+          }
+        end
+      end
+
+      relationship
     end
 
     def relationship(related_name, options)
@@ -257,15 +261,7 @@ module Goby
           base_url: options[:base_url]
         }
 
-        primary_data = if options[:collection] && (objects.nil? || !objects.present?)
-                         []
-                       elsif !options[:collection] && (objects.nil? || !objects.present?)
-                         nil
-                       elsif options[:collection]
-                         serialize_collection objects, serialize_options
-                       else
-                         serialize_object objects, serialize_options
-                       end
+        primary_data = build_primary_data(objects, options, serialize_options)
 
         hash = {
           data: primary_data
@@ -292,6 +288,18 @@ module Goby
         end
 
         hash
+      end
+
+      def build_primary_data(objects, options, serialize_options)
+        if options[:collection] && (objects.nil? || !objects.present?)
+          []
+        elsif !options[:collection] && (objects.nil? || !objects.present?)
+          nil
+        elsif options[:collection]
+          serialize_collection objects, serialize_options
+        else
+          serialize_object objects, serialize_options
+        end
       end
 
       private

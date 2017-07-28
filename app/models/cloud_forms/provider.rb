@@ -1,3 +1,5 @@
+require 'pry'
+
 module CloudForms
   class Provider < ::Provider
     belongs_to :provider_type
@@ -18,6 +20,10 @@ module CloudForms
       end
     end
 
+    def data
+      @data ||= []
+    end
+
     def sync_provider_data
       # Things we care about
       # 1. Providers (those without a parent_id), name, description, guid, id
@@ -25,8 +31,7 @@ module CloudForms
       # 3. Flavors, name, description, id, ems_id, deprecated
 
       # Going to store ALL of the records we find into this and use `.assoc` to match against existing rows
-      @data = []
-
+      # @data = []
       # Get and loop over each provider; We only care about collecting data for active providers
       provider_query = '?expand=resources&attributes=id,name,provider_region,description,type,guid,last_refresh_date&filter[]=parent_ems_id=null'
       client.providers.paginate provider_query do |provider_result|

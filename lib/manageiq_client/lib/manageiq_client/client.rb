@@ -45,18 +45,18 @@ module ManageIQClient
     end
 
     def connection_options
-      @connection_options.merge({}.tap do |o|
+      @connection_options.merge({}.tap do |option|
         if @authentication_method == :basic_auth
-          o[:user] = @username
-          o[:password] = @password
-          o[:headers] = @headers
+          option[:user] = @username
+          option[:password] = @password
+          option[:headers] = @headers
         else
-          o[:headers] = @headers.merge 'X-Auth-Token' => @token
+          option[:headers] = @headers.merge 'X-Auth-Token' => @token
         end
 
-        o[:base_path] = @base_path
-        o[:read_timeout] = ManageIQClient::READ_TIMEOUT
-        o[:write_timeout] = ManageIQClient::WRITE_TIMEOUT
+        option[:base_path] = @base_path
+        option[:read_timeout] = ManageIQClient::READ_TIMEOUT
+        option[:write_timeout] = ManageIQClient::WRITE_TIMEOUT
       end)
     end
 

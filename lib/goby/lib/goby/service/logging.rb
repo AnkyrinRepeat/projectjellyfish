@@ -6,7 +6,7 @@ module Goby
       included do
         cattr_accessor(:logger) { ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT)) }
 
-        around_perform do |service, block, _|
+        around_perform do |service, block|
           tag_logger(service.class.name) do
             payload = { service: service }
             ActiveSupport::Notifications.instrument('perform_start.goby_service', payload.dup)

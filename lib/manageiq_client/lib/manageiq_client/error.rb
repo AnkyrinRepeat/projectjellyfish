@@ -1,3 +1,5 @@
+require 'pry'
+
 module ManageIQClient
   class Error < StandardError
     attr_reader :status_code, :error_kind, :response_data
@@ -30,6 +32,10 @@ module ManageIQClient
         error_kind = 'Unexpected Client Error'
       end
 
+      new_error(message, data, status_code, error_kind)
+    end
+
+    def self.new_error(message, data, status_code, error_kind)
       new_error = new(message)
       new_error.instance_variable_set(:@response_data, data)
       new_error.instance_variable_set(:@status_code, status_code)
