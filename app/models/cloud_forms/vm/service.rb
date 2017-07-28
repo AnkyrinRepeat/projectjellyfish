@@ -114,7 +114,7 @@ module CloudForms
         errored!
         self.status_message = error.message
       ensure
-        save if changed?
+        ensure_save
       end
 
       def check_provisioning_status
@@ -140,7 +140,7 @@ module CloudForms
         errored!
         self.status_message = error.message
       ensure
-        save if changed?
+        ensure_save
       end
 
       def start_deprovisioning
@@ -164,7 +164,7 @@ module CloudForms
         errored!
         self.status_message = error.message
       ensure
-        save if changed?
+        ensure_save
       end
 
       def check_deprovisioning_status
@@ -189,7 +189,7 @@ module CloudForms
         errored!
         self.status_message = error.message
       ensure
-        save if changed?
+        ensure_save
       end
 
       def check_powered_on_status
@@ -216,7 +216,7 @@ module CloudForms
         errored!
         self.status_message = error.message
       ensure
-        save if changed?
+        ensure_save
       end
 
       def check_powering_on_status
@@ -282,17 +282,8 @@ module CloudForms
                              provider.client.instances.find "#{details['instance_id']}?attributes=#{attributes}"
                            end
 
-        details['name'] = instance_details['name']
-        details['vendor'] = instance_details['vendor']
-        details['power_state'] = instance_details['power_state'].downcase
         ips = partition_ips instance_details['ipaddresses']
-        details['public_ips'] = ips[1].sort
-        details['private_ips'] = ips[0].sort
-        details['disk_size'] = instance_details['provisioned_storage'].to_i / 1024 / 1024 # Returns in B, reduce to in MB
-        details['memory'] = instance_details['mem_cpu']
-        details['cpu_count'] = instance_details['num_cpu']
-        details['core_count'] = instance_details['cpu_total_cores']
-        details['retired'] = instance_details.fetch('retired', false) || instance_details['raw_power_state'].casecmp('deleted').zero? || instance_details.fetch('retirement_status', 'active')[/retir/]
+        update_details(instance_details, ips)
 
         details_will_change!
 
@@ -311,6 +302,19 @@ module CloudForms
         end
 
         save
+      end
+
+      def update_details(instance_details, ips)
+        details['name'] = instance_details['name']
+        details['vendor'] = instance_details['vendor']
+        details['power_state'] = instance_details['power_state'].downcase
+        details['public_ips'] = ips[1].sort
+        details['private_ips'] = ips[0].sort
+        details['disk_size'] = instance_details['provisioned_storage'].to_i / 1024 / 1024 # Returns in B, reduce to in MB
+        details['memory'] = instance_details['mem_cpu']
+        details['cpu_count'] = instance_details['num_cpu']
+        details['core_count'] = instance_details['cpu_total_cores']
+        details['retired'] = instance_details.fetch('retired', false) || instance_details['raw_power_state'].casecmp('deleted').zero? || instance_details.fetch('retirement_status', 'active')[/retir/]
       end
 
       def generate_vm_name(provider_type)
@@ -345,6 +349,10 @@ module CloudForms
 
       def ext_template
         @_ext_template ||= ProviderData.find_by(provider_id: provider_id, ext_id: settings['template_ext_id'], data_type: 'template')
+      end
+
+      def ensure_save
+        save if changed?
       end
     end
   end

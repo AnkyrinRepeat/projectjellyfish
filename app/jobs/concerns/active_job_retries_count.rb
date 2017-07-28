@@ -5,10 +5,7 @@ module ActiveJobRetriesCount
     attr_reader :retries_count
   end
 
-  def initialize(*arguments)
-    super
-    @retries_count ||= 0
-  end
+  @retries_count ||= 0
 
   def deserialize(job_data)
     super

@@ -9,7 +9,7 @@ module Goby
     end
 
     class InternalServerError < Error
-      attr_accessor :exception
+      attr_reader :exception
 
       def initialize(exception)
         @exception = exception
@@ -68,7 +68,7 @@ module Goby
     end
 
     class InvalidResource < Error
-      attr_accessor :resource_type
+      attr_reader :resource_type
 
       def initialize(resource_type)
         @resource_type = resource_type
@@ -118,7 +118,7 @@ module Goby
     end
 
     class InvalidField < Error
-      attr_accessor :type, :field
+      attr_reader :type, :field
 
       def initialize(type, field)
         @field = field
@@ -134,7 +134,7 @@ module Goby
     end
 
     class InvalidInclude < Error
-      attr_accessor :type, :association
+      attr_reader :type, :association
 
       def initialize(type, association)
         @type = type
@@ -150,7 +150,7 @@ module Goby
     end
 
     class InvalidFiltersFormat < Error
-      attr_accessor :filters
+      attr_reader :filters
 
       def initialize(filters)
         @filters = filters
@@ -165,7 +165,7 @@ module Goby
     end
 
     class FilterNotAllowed < Error
-      attr_accessor :filter
+      attr_reader :filter
 
       def initialize(filter)
         @filter = filter
@@ -180,7 +180,7 @@ module Goby
     end
 
     class InvalidSortCriteria < Error
-      attr_accessor :resource, :sort
+      attr_reader :resource, :sort
 
       def initialize(resource, sort)
         @resource = resource
@@ -196,7 +196,7 @@ module Goby
     end
 
     class InvalidPaginationParam < Error
-      attr_accessor :params
+      attr_reader :params
 
       def initialize(params)
         @params = params
@@ -213,7 +213,7 @@ module Goby
     end
 
     class InvalidPageValue < Error
-      attr_accessor :parem, :value
+      attr_reader :parem, :value
 
       def initialize(parem, value)
         @parem = parem

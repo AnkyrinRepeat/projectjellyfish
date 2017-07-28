@@ -1,9 +1,15 @@
 require 'pry'
+
 class Session
   include ActiveModel::Model
 
-  attr_accessor :user
+  attr_reader :user
   attr_reader :token
+
+  def initialize(params)
+    @user = params[:user]
+    @token = nil
+  end
 
   def token
     return @token unless @token.nil?

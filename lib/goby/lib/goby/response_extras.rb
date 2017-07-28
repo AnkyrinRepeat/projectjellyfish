@@ -9,9 +9,9 @@ module Goby
       @base_url = options[:base_url] || ''
 
       @fields = nil
-      @include = nil
-      @filter = nil
-      @sort = nil
+      @includes = nil
+      @filters = nil
+      @sorts = nil
       @page = {}
       @meta = {}
 
@@ -87,7 +87,7 @@ module Goby
         "fields[#{type}]=#{fields.join(',')}"
       end.join '&'
 
-      @meta[:fields] = request.fields.each_with_object({}) { |v, m| m[v[0]] = v[1].join ',' }
+      @meta[:fields] = request.fields.each_with_object({}) { |e, k| k[e[0]] = e[1].join ',' }
     end
 
     def unparse_includes
@@ -129,13 +129,14 @@ module Goby
 
       # Include page[size]=x only when it differs from the default
       page_size = page[:size] != Goby.config.default_page_size ? "&page[size]=#{page[:size]}" : ''
+      page_number = page[:number]
 
-      @page[:self] = "page[number]=#{page[:number]}&page[size]=#{page[:size]}"
+      @page[:self] = "page[number]=#{page_number}&page[size]=#{page[:size]}"
       if total_pages > 0
-        @page[:first] = "page[number]=1#{page_size}" unless page[:number] == 1
-        @page[:prev] = "page[number]=#{page[:number] - 1}#{page_size}" if page[:number] > 1
-        @page[:next] = "page[number]=#{page[:number] + 1}#{page_size}" if page[:number] < total_pages
-        @page[:last] = "page[number]=#{total_pages}#{page_size}" unless page[:number] == total_pages
+        @page[:first] = "page[number]=1#{page_size}" unless page_number == 1
+        @page[:prev] = "page[number]=#{page_number - 1}#{page_size}" if page_number > 1
+        @page[:next] = "page[number]=#{page_number + 1}#{page_size}" if page_number < total_pages
+        @page[:last] = "page[number]=#{total_pages}#{page_size}" unless page_number == total_pages
       end
 
       @meta[:page] = page

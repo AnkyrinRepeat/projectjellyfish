@@ -9,15 +9,11 @@ require 'goby/exceptions'
 
 module Goby
   class << self
-    attr_writer :config
+    attr_reader :config
   end
 
-  def self.config
-    @config ||= Config.new
-  end
-
-  def self.configure
-    yield config
+  def self.configure(message_paths, default_page_size, max_page_size, related_links, include_backtraces)
+    @config = Config.new(message_paths, default_page_size, max_page_size, related_links, include_backtraces)
   end
 end
 

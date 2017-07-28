@@ -12,7 +12,10 @@ NestedIterators:
   max_allowed_nesting: 2
 
 TooManyStatements:
-  max_statements: 18
+  max_statements: 20
+
+TooManyMethods:
+  max_methods: 25
 
 TooManyInstanceVariables:
   max_instance_variables: 10
@@ -23,8 +26,11 @@ TooManyConstants:
 LongParameterList:
   max_params: 6
 
+RepeatedConditional:
+  max_ifs: 5
+
 UncommunicativeVariableName:
-  accept: ['e', 'k', 'q' ]
+  accept: ['a', 'e', 'k', 'q' ]
 
 ManualDispatch:
   enabled: false
@@ -53,7 +59,12 @@ ClassVariable:
 
 "lib/goby/lib/goby":
   TooManyMethods:
-    max_methods: 17
+    enabled: false
+
+"app/models/":
+  Attribute:
+    enabled: false
+
 
 # Directories below will not be scanned at all
 exclude_paths:

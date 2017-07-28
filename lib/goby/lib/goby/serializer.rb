@@ -14,6 +14,9 @@ module Goby
       @includes = options[:include] || []
 
       @options = options
+
+      @_associations = {}
+      @_attributes = {}
     end
 
     def _id

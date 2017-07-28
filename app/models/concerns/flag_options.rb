@@ -1,3 +1,4 @@
+require 'pry'
 module FlagOptions
   extend ActiveSupport::Concern
 
@@ -11,29 +12,29 @@ module FlagOptions
   module ClassMethods
     def flag(key)
       skey = key.to_s
-      define_method(key) { self[:flags].include? skey }
+      define_method(key) { flags.include? skey }
       alias_method "#{skey}?".to_sym, key
       define_method("#{skey}!") do
-        return if self[:flags].include? skey
+        return if flags.include? skey
         if new_record?
-          self[:flags].push skey
+          flags.push skey
         else
           with_lock do
-            update flags: self[:flags] + [skey]
+            update flags: flags + [skey]
           end
         end
-        self[:flags]
+        flags
       end
       define_method("remove_#{skey}!") do
-        return unless self[:flags].include? skey
+        return unless flags.include? skey
         if new_record?
-          self[:flags].delete skey
+          flags.delete skey
         else
           with_lock do
-            update flags: self[:flags] - [skey]
+            update flags: flags - [skey]
           end
         end
-        self[:flags]
+        flags
       end
       alias_method "unset_#{skey}!".to_sym, "remove_#{skey}!"
     end
@@ -41,26 +42,30 @@ module FlagOptions
 
   module InstanceMethods
     def flag!(key)
-      return if self[:flags].include? key.to_s
+      return if flags.include? key.to_s
       if new_record?
-        self[:flags].push key.to_s
+        flags.push key.to_s
       else
         with_lock do
-          update flags: self[:flags] + [key.to_s]
+          update flags: flags + [key.to_s]
         end
       end
-      self[:flags]
+      flags
     end
 
     def unflag!(key)
-      return unless self[:flags].include? key.to_s
+      return unless flags.include? key.to_s
       if new_record?
-        self[:flags].delete key.to_s
+        flags.delete key.to_s
       else
         with_lock do
-          update flags: self[:flags] - [key.to_s]
+          update flags: flags - [key.to_s]
         end
       end
+      flags
+    end
+
+    def flags
       self[:flags]
     end
   end

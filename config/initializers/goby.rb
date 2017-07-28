@@ -1,8 +1,9 @@
-Goby.configure do |config|
-  config.message_paths = [Rails.root.join('app', 'services', 'errors.yml')]
-  config.default_page_size = 20
-  config.max_page_size = 100
-  config.related_links = false
-end
+Goby.configure(
+  [Rails.root.join('app', 'services', 'errors.yml')],
+  20,
+  100,
+  false,
+  false
+)
 
 Goby::Service.logger = Rails.logger

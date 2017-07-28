@@ -8,10 +8,10 @@ module ManageIQClient
     basic_request :auth
 
     def initialize(options = {})
-      @host = options[:host] || 'https://localhost'
-      @base_path = options[:base_path] || ManageIQClient::BASE_PATH
-      @headers = options[:headers] || ManageIQClient::HEADERS
-      @authentication_method = options[:authentication_method] || :basic_auth # Also accept :token_auth
+      @host = options[:host]
+      @base_path = options[:base_path]
+      @headers = options[:headers]
+      @authentication_method = options[:authentication_method]
       if @authentication_method == :token_auth
         raise 'Missing token for authentication' if options[:token].nil?
         @token = options[:token]
@@ -21,9 +21,18 @@ module ManageIQClient
         @password = options[:password] || 'smartvm'
       end
 
-      @connection_options = options[:connection_options] || {}
+      @connection_options = options[:connection_options]
 
+      initialize_default
       discover_api
+    end
+
+    def initialize_default
+      @host ||= 'https://localhost'
+      @base_path ||= ManageIQClient::BASE_PATH
+      @headers ||= ManageIQClient::HEADERS
+      @authentication_method ||= :basic_auth # Also accept :token_auth
+      @connection_options ||= {}
     end
 
     def reconnect
