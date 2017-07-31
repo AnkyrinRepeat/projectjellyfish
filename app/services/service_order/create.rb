@@ -49,11 +49,11 @@ class ServiceOrder < ApplicationRecord
     private
 
     def setup_total
-      service_requests.inject(0) { |_a, e| + e.product.setup_price }
+      service_requests.inject(0) { |a, e| a + e.product.setup_price }
     end
 
     def monthly_total
-      service_requests.inject(0) { |_a, e| + e.product.monthly_cost }
+      service_requests.inject(0) { |a, e| a + e.product.monthly_cost }
     end
 
     def service_requests

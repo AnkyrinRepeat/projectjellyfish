@@ -1,5 +1,3 @@
-require 'pry'
-
 module ManageIQClient
   class Error < StandardError
     attr_reader :status_code, :error_kind, :response_data

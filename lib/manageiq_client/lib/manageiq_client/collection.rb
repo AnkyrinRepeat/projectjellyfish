@@ -1,5 +1,3 @@
-require 'pry'
-
 module ManageIQClient
   class Collection
     extend BasicRequest

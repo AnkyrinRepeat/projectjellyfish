@@ -1,5 +1,3 @@
-require 'pry'
-
 class Session
   include ActiveModel::Model
 
