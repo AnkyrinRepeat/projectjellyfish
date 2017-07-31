@@ -76,7 +76,7 @@ module Goby
 
         columns = model_class.column_names.map(&:to_sym)
 
-        @filters.reduce(query) do |q, filter|
+        @filters.inject(query) do |q, filter|
           key, value = filter.each_pair.first
           if columns.include? key
             q.where filter

@@ -94,11 +94,13 @@ module Goby
 
       hash = {}
 
+      valid_includes = available_includes || []
+
       _associations.each do |name, options|
         key = options[:as] || name
 
         next unless @includes.include? key
-        raise Goby::Exceptions::InvalidInclude.new(_type, key) unless available_includes.include?(key)
+        raise Goby::Exceptions::InvalidInclude.new(_type, key) unless valid_includes.include?(key)
 
         relationship = create_relationship(name, options)
 
@@ -273,7 +275,7 @@ module Goby
         hash[:links] = options[:links] if options[:links]
         hash[:meta] = options[:meta] if options[:meta]
 
-        unless !objects.present? || options[:include].empty?
+        unless objects.blank? || options[:include].empty?
           included_data = {}
           objects = [objects].flatten
 
@@ -294,9 +296,9 @@ module Goby
       end
 
       def build_primary_data(objects, options, serialize_options)
-        if options[:collection] && (objects.nil? || !objects.present?)
+        if options[:collection] && (objects.nil? || objects.blank?)
           []
-        elsif !options[:collection] && (objects.nil? || !objects.present?)
+        elsif !options[:collection] && (objects.nil? || objects.blank?)
           nil
         elsif options[:collection]
           serialize_collection objects, serialize_options
@@ -325,7 +327,7 @@ module Goby
       end
 
       def serialize_collection(objects, options = {})
-        return [] if objects.nil? || !objects.present?
+        return [] if objects.nil? || objects.blank?
 
         objects.map { |object| serialize_object object, options }
       end
