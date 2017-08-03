@@ -4,11 +4,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    manager? || Membership.where(user_id: context.id, project_id: record.id).exists?
+    is_manager? || Membership.where(user_id: context.id, project_id: record.id).exists?
   end
 
   def update?
-    manager? || Membership.where(user_id: context.id, project_id: record.id).exists?
+    is_manager? || Membership.where(user_id: context.id, project_id: record.id).exists?
   end
 
   class Scope < Scope

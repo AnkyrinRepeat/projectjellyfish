@@ -45,11 +45,11 @@ class ApplicationPolicy
 
   private
 
-  def manager?
+  def is_manager?
     context&.active? && (context.manager? || context.admin?)
   end
 
-  def admin?
+  def is_admin?
     context&.active? && context.admin?
   end
 

@@ -4,24 +4,24 @@ class MembershipPolicy < ApplicationPolicy
   end
 
   def show?
-    owns_object? || manager? || Member
+    owns_object? || is_manager? || Member
       .joins(project: :memberships)
       .where(memberships: { user_id: context.id, role: [Membership.roles[:admin], Membership.roles[:owner]] }, id: record.id).exists?
   end
 
   def create?
     # Use `setup_model!` to assign the `project_id` to the model before it's authorized
-    manager? || Membership.where(user_id: context.id, project_id: record.project_id, role: [Membership.roles[:admin], Membership.roles[:owner]]).exists?
+    is_manager? || Membership.where(user_id: context.id, project_id: record.project_id, role: [Membership.roles[:admin], Membership.roles[:owner]]).exists?
   end
 
   def update?
-    manager? || Member
+    is_manager? || Member
       .joins(project: :memberships)
       .where(memberships: { user_id: context.id, role: [Membership.roles[:admin], Membership.roles[:owner]] }, id: record.id).exists?
   end
 
   def destroy?
-    manager? || Member
+    is_manager? || Member
       .joins(project: :memberships)
       .where(memberships: { user_id: context.id, role: [Membership.roles[:admin], Membership.roles[:owner]] }, id: record.id).exists?
   end

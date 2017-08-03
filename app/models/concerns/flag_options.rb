@@ -11,29 +11,29 @@ module FlagOptions
   module ClassMethods
     def flag(key)
       skey = key.to_s
-      define_method(key) { flags.include? skey }
+      define_method(key) { self[:flags].include? skey }
       alias_method "#{skey}?".to_sym, key
       define_method("#{skey}!") do
-        return if flags.include? skey
+        return if self[:flags].include? skey
         if new_record?
-          flags.push skey
+          self[:flags].push skey
         else
           with_lock do
-            update flags: flags + [skey]
+            update flags: self[:flags] + [skey]
           end
         end
-        flags
+        self[:flags]
       end
       define_method("remove_#{skey}!") do
-        return unless flags.include? skey
+        return unless self[:flags].include? skey
         if new_record?
-          flags.delete skey
+          self[:flags].delete skey
         else
           with_lock do
-            update flags: flags - [skey]
+            update flags: self[:flags] - [skey]
           end
         end
-        flags
+        self[:flags]
       end
       alias_method "unset_#{skey}!".to_sym, "remove_#{skey}!"
     end
@@ -41,30 +41,26 @@ module FlagOptions
 
   module InstanceMethods
     def flag!(key)
-      return if flags.include? key.to_s
+      return if self[:flags].include? key.to_s
       if new_record?
-        flags.push key.to_s
+        self[:flags].push key.to_s
       else
         with_lock do
-          update flags: flags + [key.to_s]
+          update flags: self[:flags] + [key.to_s]
         end
       end
-      flags
+      self[:flags]
     end
 
     def unflag!(key)
-      return unless flags.include? key.to_s
+      return unless self[:flags].include? key.to_s
       if new_record?
-        flags.delete key.to_s
+        self[:flags].delete key.to_s
       else
         with_lock do
-          update flags: flags - [key.to_s]
+          update flags: self[:flags] - [key.to_s]
         end
       end
-      flags
-    end
-
-    def flags
       self[:flags]
     end
   end

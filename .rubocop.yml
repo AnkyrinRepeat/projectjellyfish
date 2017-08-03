@@ -6,7 +6,6 @@ AllCops:
     - bin/**
     - lib/tasks/sample.rake
     - lib/jellyfish_fog_aws/spec/dummy/**/*
-    - lib/manageiq_client/lib/manageiq-client.rb
     - test/**/*
   TargetRubyVersion: 2.3
 
@@ -59,6 +58,15 @@ Style/PredicateName:
   NameWhitelist:
     - has_one
     - has_many
+    - is_manager?
+    - is_admin?
+    - manageiq-client.rb
+
+Style/AndOr:
+  Enabled: false
+
+Style/FileName:
+  Enabled: false
 
 Metrics/CyclomaticComplexity:
   Max: 8

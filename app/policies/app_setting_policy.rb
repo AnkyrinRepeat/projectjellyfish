@@ -4,6 +4,6 @@ class AppSettingPolicy < ApplicationPolicy
   end
 
   def update?
-    admin?
+    is_admin?
   end
 end

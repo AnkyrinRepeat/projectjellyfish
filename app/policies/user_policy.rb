@@ -4,23 +4,23 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    admin? || self?
+    is_admin? || self?
   end
 
   def create?
-    admin?
+    is_admin?
   end
 
   def create_action?
-    admin?
+    is_admin?
   end
 
   def update?
-    admin? || self?
+    is_admin? || self?
   end
 
   def destroy?
-    admin? && !self?
+    is_admin? && !self?
   end
 
   private

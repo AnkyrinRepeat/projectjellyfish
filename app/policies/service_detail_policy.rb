@@ -4,7 +4,7 @@ class ServiceDetailPolicy < ApplicationPolicy
   end
 
   def show?
-    manager? || ServiceDetail
+    is_manager? || ServiceDetail
       .joins(project: :memberships)
       .references(:memberships)
       .where(memberships: { user_id: context.id }, service_id: record.service_id).exists?

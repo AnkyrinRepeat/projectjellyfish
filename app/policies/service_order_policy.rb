@@ -4,7 +4,7 @@ class ServiceOrderPolicy < ApplicationPolicy
   end
 
   def show?
-    owns_object? || manager?
+    owns_object? || is_manager?
   end
 
   def create?
@@ -12,11 +12,11 @@ class ServiceOrderPolicy < ApplicationPolicy
   end
 
   def update?
-    owns_object? || manager?
+    owns_object? || is_manager?
   end
 
   def destroy?
-    admin?
+    is_admin?
   end
 
   class Scope < Scope

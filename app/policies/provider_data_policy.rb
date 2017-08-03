@@ -8,6 +8,6 @@ class ProviderDataPolicy < ApplicationPolicy
   end
 
   def sync?
-    admin?
+    is_admin?
   end
 end

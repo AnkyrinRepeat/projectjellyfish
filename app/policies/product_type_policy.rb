@@ -1,21 +1,21 @@
 class ProductTypePolicy < ApplicationPolicy
   def search?
-    manager?
+    is_manager?
   end
 
   def show?
-    manager?
+    is_manager?
   end
 
   def create?
-    manager?
+    is_manager?
   end
 
   def update?
-    manager?
+    is_manager?
   end
 
   def destroy?
-    manager?
+    is_manager?
   end
 end

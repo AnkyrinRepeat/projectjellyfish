@@ -80,7 +80,7 @@ class Service < ApplicationRecord
 
   # TODO: unused?
   def connected?
-    provider.connected? || (self.status_message = 'Actions cannot be taken while the service provider is disconnected' && false)
+    provider.connected? or (self.status_message = 'Actions cannot be taken while the service provider is disconnected' and false)
   end
 
   # All Services use the same serializer unless overridden
