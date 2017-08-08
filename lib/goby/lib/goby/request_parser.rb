@@ -203,7 +203,7 @@ module Goby
         @pagination[:size] = default_page_size
       else
         paging.permit(:number, :size)
-        @pagination[:number] = [paging[:number], 1].max.to_i
+        @pagination[:number] = [paging[:number].to_i, 1].max
         @pagination[:size] = (paging[:size] || default_page_size).to_i
       end
 

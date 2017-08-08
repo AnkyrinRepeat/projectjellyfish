@@ -43,7 +43,14 @@ module ManageIQClient
             body = body.merge(options[:body]).to_json
           end
 
-          request(action_path, uri, body, options)
+          request(
+            uri: [action_path, uri].compact.join('/'),
+            expects: options[:expects],
+            method: options[:method] || action_method,
+            headers: options[:headers],
+            body: body,
+            parse: true
+          )
         end
       end
 
@@ -70,18 +77,11 @@ module ManageIQClient
 
     attr_reader :connection
 
-    def request(action_path, uri, body, options)
-      request = {
-        uri: [action_path, uri].compact.join('/'),
-        expects: options[:expects] || [200],
-        method: options[:method] || action_method,
-        headers: options[:headers] || {},
-        body: body,
-        parse: true
-      }
-
-      request[:uri] = [@base_path, request[:uri]].compact.join('/').sub(%r{/\z}, '')
-      connection.request request
+    def request(options)
+      options[:expects] ||= [200]
+      options[:headers] ||= {}
+      options[:uri] = [@base_path, options[:uri]].compact.join('/').sub(%r{/\z}, '')
+      connection.request options
     end
   end
 end
