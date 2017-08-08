@@ -45,21 +45,23 @@ module CloudForms
           provider_type = 'awsgov'
         end
 
+        @data ||= []
+
         @data << [[:provider, provider_result[:id].to_s], {
           name: provider_result[:name],
           description: provider_result[:description],
           properties: { guid: provider_result[:guid], type: provider_type }
         }]
 
-        fetch_templates
-        fetch_flavor
+        fetch_templates provider_result
+        fetch_flavor provider_result
         start_transaction
 
         true
       end
     end
 
-    def fetch_templates
+    def fetch_templates(provider_result)
       # Get the templates for the provider
       template_query = "?expand=resources&attributes=id,name,description,guid,deprecated,connection_state&filter[]=ems_id=#{provider_result[:id]}"
       client.templates.paginate template_query do |template_result|
@@ -84,7 +86,7 @@ module CloudForms
       end
     end
 
-    def fetch_flavor
+    def fetch_flavor(provider_result)
       # Get the flavors for the provider
       flavor_query = "?expand=resources&attributes=id,name,description,enabled&filter[]=ems_id=#{provider_result[:id]}"
       client.flavors.paginate flavor_query do |flavor_result|
@@ -105,7 +107,7 @@ module CloudForms
         # Get our providers data in chunks; We've got an unknown amount of data in memory already
         ProviderData.where(provider_id: id).find_each(batch_size: 100) do |provider_data|
           # Locate our new or updated data using `.assoc`
-          row_data = data.assoc([provider_data.data_type.to_sym, provider_data.ext_id])
+          row_data = @data.assoc([provider_data.data_type.to_sym, provider_data.ext_id])
 
           # Disable any rows we don't have data for
           unless row_data

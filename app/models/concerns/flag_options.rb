@@ -1,3 +1,5 @@
+require 'pry'
+
 module FlagOptions
   extend ActiveSupport::Concern
 
