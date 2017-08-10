@@ -112,7 +112,7 @@ module Goby
       page_number = page[:number]
 
       @page[:self] = "page[number]=#{page_number}&page[size]=#{page[:size]}"
-      if total_pages > 0
+      if total_pages.positive?
         @page[:first] = "page[number]=1#{page_size}" unless page_number == 1
         @page[:prev] = "page[number]=#{page_number - 1}#{page_size}" if page_number > 1
         @page[:next] = "page[number]=#{page_number + 1}#{page_size}" if page_number < total_pages

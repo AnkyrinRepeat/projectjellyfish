@@ -10,9 +10,9 @@ class Product < ApplicationRecord
   has_many :service_requests
   has_many :services
 
-  scope :tagged_with_any, -> (tags) { tagged_with(tags, any: true) }
-  scope :not_tagged_with, -> (tags) { tagged_with(tags, exclude: true) }
-  scope :project_policy, -> (project_id) { policy(Filter.where(filterable_id: project_id, filterable_type: 'Project').pluck(:exclude, :cached_tag_list)) }
+  scope :tagged_with_any, ->(tags) { tagged_with(tags, any: true) }
+  scope :not_tagged_with, ->(tags) { tagged_with(tags, exclude: true) }
+  scope :project_policy, ->(project_id) { policy(Filter.where(filterable_id: project_id, filterable_type: 'Project').pluck(:exclude, :cached_tag_list)) }
 
   # Expect an array of [exclude::boolean, tags::text]
   # Example [[false, 'tagged,with,any'], [true, 'not,tagged,with']]

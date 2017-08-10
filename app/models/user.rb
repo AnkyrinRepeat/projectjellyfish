@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   enum role: { user: 0, manager: 1, admin: 2 }
 
-  scope :like, -> (query) { where('users.name ILIKE :query OR LOWER(users.email) LIKE :query', query: "#{query.downcase.gsub(/%|_/, '\\\\\0')}%") }
+  scope :like, ->(query) { where('users.name ILIKE :query OR LOWER(users.email) LIKE :query', query: "#{query.downcase.gsub(/%|_/, '\\\\\0')}%") }
 
   state_machine :state, initial: :pending do
     before_transition any => :active, do: :activate_user

@@ -18,16 +18,16 @@ class ServiceRequest < ApplicationRecord
 
     event :order do
       # Auto approve is on and the provider is connected
-      transition configured: :approved, if: -> (request) { request.auto_approval? && request.provider_connected? }
+      transition configured: :approved, if: ->(request) { request.auto_approval? && request.provider_connected? }
       # Auto approve is on but the provider is not connected
-      transition configured: :delayed, if: -> (request) { request.auto_approval? }
+      transition configured: :delayed, if: ->(request) { request.auto_approval? }
       # Leave the request to be approved or denied
       transition configured: :ordered
     end
 
     event :approve do
       # Approve the request if the provider is connected
-      transition [:delayed, :ordered] => :approved, if: -> (request) { request.provider_connected? }
+      transition [:delayed, :ordered] => :approved, if: ->(request) { request.provider_connected? }
       # The provider is not connected
       transition ordered: :delayed
     end

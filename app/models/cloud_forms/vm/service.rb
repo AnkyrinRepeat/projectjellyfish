@@ -196,7 +196,7 @@ module CloudForms
         update_status
       end
 
-      alias check_powered_off_status check_powered_on_status
+      alias_method :check_powered_off_status, :check_powered_on_status
 
       def start_powering_on
         if vm_on?
@@ -257,11 +257,9 @@ module CloudForms
         end
       end
 
-      def do_reboot
-      end
+      def do_reboot; end
 
-      def check_rebooting_status
-      end
+      def check_rebooting_status; end
 
       def vm_on?
         details['power_state'] == 'on'

@@ -22,7 +22,7 @@ class Service < ApplicationRecord
       def perform
         validate do
           if model.fire_events params[:action]
-            model.update_columns last_checked_at: DateTime.current
+            model.update last_checked_at: DateTime.current
           else
             invalid! unless model.error?
           end

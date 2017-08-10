@@ -8,7 +8,7 @@ module Goby
       @context = options[:context]
       @base_url = options[:base_url] || ''
 
-      @fields = (options[:fields] && options[:fields][_type]) ? options[:fields][_type] : available_fields
+      @fields = options[:fields] && options[:fields][_type] ? options[:fields][_type] : available_fields
 
       # TODO: Recursive includes
       @includes = options[:include] || []
@@ -222,10 +222,10 @@ module Goby
       end
 
       # Singular aliases for convenience
-      alias attribute attributes
-      alias field fields
-      alias filter filters
-      alias sort sorts
+      alias_method :attribute, :attributes
+      alias_method :field, :fields
+      alias_method :filter, :filters
+      alias_method :sort, :sorts
 
       def has_one(name, options = {})
         options[:type] = :one

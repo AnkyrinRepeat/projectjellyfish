@@ -18,6 +18,9 @@ ClassLength:
 MethodLength:
   Max: 50
 
+Metrics/BlockLength:
+  Max: 50
+
 Documentation:
   Enabled: false
 
@@ -26,6 +29,9 @@ Metrics/LineLength:
 
 Metrics/AbcSize:
   Max: 38
+
+Style/Alias:
+  Enabled: false
 
 Style/GlobalVars:
   AllowedVariables: [$evm]

@@ -19,10 +19,10 @@ class Service < ApplicationRecord
         # Only continue if the check isn't for an earlier version
         return unless model.updated_at.to_s == params[:updated_at]
 
-        model.touch
+        model.save
         model.check_status
 
-        model.update_columns last_checked_at: DateTime.current
+        model.update last_checked_at: DateTime.current
       end
     end
   end

@@ -17,7 +17,7 @@ module Goby
         service
       end
 
-      alias call run
+      alias_method :call, :run
     end
 
     def initialize(context:, params:)
@@ -45,7 +45,7 @@ module Goby
       @valid = false
     end
 
-    alias call run
+    alias_method :call, :run
 
     def invalid!(error = {}, raise_exception = false)
       @errors = error
@@ -120,7 +120,7 @@ module Goby
 
     attr_reader :context
     attr_accessor :params
-    alias current_user context
+    alias_method :current_user, :context
 
     def run_service(service_class, service_context: @context, service_params: @params)
       service_object = service_class.run context: service_context, params: service_params

@@ -33,7 +33,7 @@ module Goby
         query_with(model_class).find model_id
       end
 
-      alias update_model! find_model!
+      alias_method :update_model!, :find_model!
 
       def collection_model!
         query_with model_class.all

@@ -1,5 +1,3 @@
-require 'pry'
-
 module FlagOptions
   extend ActiveSupport::Concern
 
@@ -7,7 +5,7 @@ module FlagOptions
     extend ClassMethods
     include InstanceMethods
 
-    scope :with_flag, -> (flag) { where("? = ANY (#{table_name}.flags)", flag) }
+    scope :with_flag, ->(flag) { where("? = ANY (#{table_name}.flags)", flag) }
   end
 
   module ClassMethods

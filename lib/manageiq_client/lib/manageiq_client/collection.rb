@@ -67,7 +67,7 @@ module ManageIQClient
         request_offset = offset + (limit * loops)
         request_uri = uri + "#{(uri[0] == '?' ? '&' : '?')}offset=#{request_offset}&limit=#{limit}"
         results = all request_uri, options
-        break if results['subcount'] == 0
+        break if (results['subcount']).zero?
         results['resources'].each { |resource| yield resource.symbolize_keys }
         loops += 1
       end

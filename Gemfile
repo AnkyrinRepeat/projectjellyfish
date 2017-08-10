@@ -31,8 +31,8 @@ gem 'jwt'
 gem 'redis-store'
 
 # Jobs & Workers
-gem 'sidekiq'
 gem 'rufus-scheduler'
+gem 'sidekiq'
 
 # Model additions
 gem 'acts-as-taggable-on', '~> 4.0.0'
@@ -52,12 +52,12 @@ group :development, :test do
 end
 
 group :development do
-  gem 'pry-rails'
   gem 'listen', '~> 3.0.5'
+  gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-testunit'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -65,10 +65,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :test do
   gem 'minitest'
-  gem 'minitest-reporters'
   gem 'minitest-rails'
-  gem 'webmock'
+  gem 'minitest-reporters'
   gem 'simplecov', require: false
+  gem 'webmock'
 end
 
 #
@@ -84,16 +84,16 @@ end
 # - Client Routes from config/routes.rb
 
 # Using assets; Serving the client as well as serving the API
-gem 'sprockets-rails'
 gem 'mini_racer'
+gem 'sprockets-rails'
 # HTML
-gem 'haml'
 gem 'angular-rails-templates'
+gem 'haml'
 # CSS
 # gem 'bootstrap-sass'
-gem 'sassc-rails'
 gem 'autoprefixer-rails'
 gem 'font-awesome-rails'
+gem 'sassc-rails'
 # JavaScript
 gem 'ngannotate-rails'
 gem 'uglifier'
@@ -101,19 +101,19 @@ gem 'uglifier'
 source 'https://rails-assets.org' do
   angular_version = '~> 1.5.0'
 
-  gem 'rails-assets-moment', '~> 2.15.0'
   gem 'rails-assets-angular', angular_version
   gem 'rails-assets-angular-animate', angular_version
   gem 'rails-assets-angular-aria', angular_version
-  gem 'rails-assets-angular-sanitize', angular_version
-  gem 'rails-assets-angular-messages', angular_version
-  gem 'rails-assets-ng-tags-input', '~> 3.1.0'
+  gem 'rails-assets-angular-chart.js', '~> 1.1.0'
   gem 'rails-assets-angular-loading-bar', '~> 0.9.0'
-  gem 'rails-assets-satellizer', '~> 0.15.0'
+  gem 'rails-assets-angular-messages', angular_version
   gem 'rails-assets-angular-moment', '~> 1.0.0'
+  gem 'rails-assets-angular-sanitize', angular_version
+  gem 'rails-assets-angular-toastr', '~> 2.1.0'
   gem 'rails-assets-bulma', '~> 0.3.0'
   gem 'rails-assets-chart.js', '~> 2.4.0'
-  gem 'rails-assets-angular-chart.js', '~> 1.1.0'
+  gem 'rails-assets-moment', '~> 2.15.0'
   gem 'rails-assets-ng-dialog', '~> 0.6.0'
-  gem 'rails-assets-angular-toastr', '~> 2.1.0'
+  gem 'rails-assets-ng-tags-input', '~> 3.1.0'
+  gem 'rails-assets-satellizer', '~> 0.15.0'
 end

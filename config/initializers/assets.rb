@@ -13,7 +13,7 @@ Rails.application.config.assets.version = (ENV['ASSETS_VERSION'] || '1.0')
 Rails.application.config.assets.precompile.shift
 Rails.application.config.assets.precompile += %w(libraries.js libraries.css)
 Rails.application.config.assets.precompile.unshift(proc do |path, filename|
-  filename.start_with?(Rails.root.join('app/assets').to_s) && !%w(.js .css .html .svg).include?(File.extname(path))
+  filename.start_with?(Rails.root.join('app', 'assets').to_s) && !%w(.js .css .html .svg).include?(File.extname(path))
 end)
 
 Rails.application.config.assets.precompile += %w(.svg .png .jpg .gif)

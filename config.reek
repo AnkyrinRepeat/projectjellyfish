@@ -65,6 +65,10 @@ ClassVariable:
   Attribute:
     enabled: false
 
+"app/models/concerns":
+  DuplicateMethodCall:
+    max_calls: 10
+
 
 # Directories below will not be scanned at all
 exclude_paths:
