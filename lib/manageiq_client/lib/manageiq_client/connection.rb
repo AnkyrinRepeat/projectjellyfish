@@ -24,7 +24,7 @@ module ManageIQClient
         headers: headers
       }
 
-      unless body.nil? || body.empty?
+      if body.present?
         options[:body] = body
       end
 

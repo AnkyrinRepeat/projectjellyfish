@@ -22,7 +22,7 @@ class Product < ApplicationRecord
     end
   }
 
-  pg_search_scope :search, against: %i(name description cached_tag_list), using: {
+  pg_search_scope :search, against: %i[name description cached_tag_list], using: {
     tsearch: {
       dictionary: 'english',
       tsvector_column: :tsv

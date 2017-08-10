@@ -8,7 +8,7 @@ url = if ENV.key? 'REDIS_URL'
 
 redis_config = { url: url }
 # Namespace the queues for app and environment
-queues = %W(api_#{Rails.env}_default api_#{Rails.env}_mailers)
+queues = %W[api_#{Rails.env}_default api_#{Rails.env}_mailers]
 
 Sidekiq.configure_server do |config|
   config.redis = redis_config

@@ -17,17 +17,17 @@ module CloudForms
         end
 
         event :power_on do
-          transition [:provisioned, :powered_off] => :powering_on, unless: :vm_on?
-          transition [:provisioned, :powered_off] => :powered_on
+          transition %i[provisioned powered_off] => :powering_on, unless: :vm_on?
+          transition %i[provisioned powered_off] => :powered_on
         end
 
         event :power_off do
-          transition [:provisioned, :powered_on] => :powering_off, unless: :vm_off?
-          transition [:provisioned, :powered_on] => :powered_off
+          transition %i[provisioned powered_on] => :powering_off, unless: :vm_off?
+          transition %i[provisioned powered_on] => :powered_off
         end
 
         event :reboot do
-          transition [:provisioned, :powered_on] => :rebooting
+          transition %i[provisioned powered_on] => :rebooting
         end
 
         after_transition to: :powering_on, do: :start_powering_on
@@ -180,7 +180,7 @@ module CloudForms
               update_status
               self.status_message = task['message']
             end
-          elsif [:vmware, :awsgov].include? ext_provider_type
+          elsif %i[vmware awsgov].include? ext_provider_type
             # TODO: Find out what methods are available to follow the retirement for vms
             update_status
           end

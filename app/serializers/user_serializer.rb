@@ -18,14 +18,14 @@ class UserSerializer < ApplicationSerializer
   def available_fields
     fields = super
 
-    return %i(name avatar_url) unless context.present?
+    return %i[name avatar_url] if context.blank?
 
     unless context == object || context.admin?
-      fields -= %i(email role last_login_at last_login_client_info created_at updated_at)
+      fields -= %i[email role last_login_at last_login_client_info created_at updated_at]
     end
 
     unless context.admin?
-      fields -= %i(last_failed_login_at last_failed_client_info)
+      fields -= %i[last_failed_login_at last_failed_client_info]
     end
 
     fields

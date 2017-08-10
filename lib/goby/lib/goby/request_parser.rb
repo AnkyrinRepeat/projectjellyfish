@@ -87,7 +87,7 @@ module Goby
       end
 
       fields.each do |field, value|
-        @fields[field] = value.nil? || value.empty? ? nil : value.split(',').map(&:strip).map(&:to_sym)
+        @fields[field] = value.blank? ? nil : value.split(',').map(&:strip).map(&:to_sym)
       end
 
       validate_fields(action)
@@ -210,7 +210,6 @@ module Goby
       unless max_page_size.zero? || (1..max_page_size).cover?(@pagination[:size])
         @errors.concat Goby::Exceptions::InvalidPageValue.new(:size, @pagination[:size]).errors
       end
-
     rescue ActionController::UnpermittedParameters => e
       @errors.concat Goby::Exceptions::InvalidPaginationParam.new(e.params).errors
     end

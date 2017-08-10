@@ -20,7 +20,7 @@ class User < ApplicationRecord
       end
 
       validation do
-        required(:action).filled(included_in?: %w(approve disable enable))
+        required(:action).filled(included_in?: %w[approve disable enable])
 
         validate valid_action?: [:action] do |event|
           model.state_events.include? event.to_sym
@@ -28,7 +28,7 @@ class User < ApplicationRecord
       end
 
       def perform
-        validate params[:data][:attributes], error_nesting: %i(data attributes) do |data|
+        validate params[:data][:attributes], error_nesting: %i[data attributes] do |data|
           model.fire_events data[:action]
         end
       end

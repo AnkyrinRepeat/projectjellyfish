@@ -14,7 +14,7 @@ class ApplicationMailer < ActionMailer::Base
       openssl_verify_mode: settings.mail_ssl_verify
     }
 
-    unless settings.mail_username.blank?
+    if settings.mail_username.present?
       mail.settings.merge!(user_name: settings.mail_username,
                            password: settings.mail_password,
                            authentication: settings.mail_authentication)

@@ -39,7 +39,7 @@ class AppSetting < ApplicationRecord
     end
 
     def perform
-      validate params[:data][:attributes], error_nesting: %i(data attributes) do |data|
+      validate params[:data][:attributes], error_nesting: %i[data attributes] do |data|
         model.update data
       end
     end

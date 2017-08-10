@@ -25,17 +25,17 @@ class Membership < ApplicationRecord
         membership = Membership.where(project_id: model.project_id, user_id: context.id).first
 
         allowed_roles = if membership.nil?
-                          %w(user manager)
+                          %w[user manager]
                         else
                           case membership.role
                           when 'owner'
-                            %w(owner admin manager user)
+                            %w[owner admin manager user]
                           when 'admin'
-                            %w(admin manager user)
+                            %w[admin manager user]
                           when 'manager'
-                            %w(manager user)
+                            %w[manager user]
                           else
-                            %w(user)
+                            %w[user]
                           end
                         end
 
@@ -44,7 +44,7 @@ class Membership < ApplicationRecord
     end
 
     def perform
-      validate params[:data][:attributes], error_nesting: %i(data attributes) do
+      validate params[:data][:attributes], error_nesting: %i[data attributes] do
         model.update params[:data][:attributes]
       end
     end

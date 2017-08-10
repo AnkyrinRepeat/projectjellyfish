@@ -23,7 +23,7 @@ class Session
       required(:password).filled(:str?)
 
       # TODO: Record failed logins
-      validate(valid_email?: [:password, :email]) do |password, _email|
+      validate(valid_email?: %i[password email]) do |password, _email|
         BCrypt::Password.new(model.password_digest) == password
       end
 
@@ -33,7 +33,7 @@ class Session
     end
 
     def perform
-      validate params[:data][:attributes], error_nesting: %i(data attributes) do
+      validate params[:data][:attributes], error_nesting: %i[data attributes] do
         model.last_login_at = DateTime.current
         model.last_client_info = login_info
         model.regenerate_session_token # Saves the user record
@@ -52,7 +52,7 @@ class Session
     def find_model!
       User.find_by! email: params[:data][:attributes][:email]
     rescue ActiveRecord::RecordNotFound
-      raise Goby::Exceptions::ValidationErrors, [{ path: %w(data attributes email), predicate: 'password',
+      raise Goby::Exceptions::ValidationErrors, [{ path: %w[data attributes email], predicate: 'password',
                                                    text: 'Email or password is incorrect' }]
     end
 

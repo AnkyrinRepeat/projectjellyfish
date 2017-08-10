@@ -30,7 +30,7 @@ class User < ApplicationRecord
           required(:name).filled
           required(:email).filled(:str?, :unique_email?)
           required(:role).filled(included_in?: User.roles.keys)
-          required(:state).filled(included_in?: %w(pending active disabled))
+          required(:state).filled(included_in?: %w[pending active disabled])
           required(:password).filled(min_size?: User::MIN_PASSWORD_LENGTH).confirmation
         end
       end

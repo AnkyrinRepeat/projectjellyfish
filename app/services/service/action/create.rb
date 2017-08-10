@@ -27,7 +27,7 @@ class Service < ApplicationRecord
       end
 
       def perform
-        validate params[:data][:attributes], error_nesting: %i(data attributes) do |data|
+        validate params[:data][:attributes], error_nesting: %i[data attributes] do |data|
           Service::State::ChangeJob.perform_later model.id, data[:action]
         end
       end

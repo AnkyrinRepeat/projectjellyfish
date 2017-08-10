@@ -16,7 +16,7 @@ class CredentialValidation
 
     def perform
       schema = model.provider.class.credentials_schema :update
-      nesting = %i(data attributes credentials)
+      nesting = %i[data attributes credentials]
       validate params[:data][:attributes][:credentials], schema: schema, error_nesting: nesting do |credentials|
         model.provider.assign_attributes credentials
         begin

@@ -30,11 +30,11 @@ class User < ApplicationRecord
           required(:name).filled(:str?)
           required(:email).filled(:str?)
           required(:role).filled(included_in?: User.roles.keys)
-          validate no_role_change?: %i(role) do |role|
+          validate no_role_change?: %i[role] do |role|
             model.id != context.id || role == context.role
           end
 
-          validate unique_email?: %i(email) do |email|
+          validate unique_email?: %i[email] do |email|
             User.where(email: email).where.not(id: model.id).none?
           end
         end

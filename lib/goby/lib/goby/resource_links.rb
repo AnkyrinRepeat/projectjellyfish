@@ -138,7 +138,7 @@ module Goby
         @sorts
       ].compact.join('&')
 
-      url += "?#{URI.escape query}" unless query.blank?
+      url += "?#{URI.escape query}" if query.present?
 
       url
     end

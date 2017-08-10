@@ -32,7 +32,7 @@ module ManageIQClient
           options = args.extract_options!
           uri = args.first
 
-          unless %w(GET DELETE).include? action_method
+          unless %w[GET DELETE].include? action_method
             body = { action: action_name }
             if options[:body] && options[:body].is_a?(String)
               options[:body] = JSON(options[:body])

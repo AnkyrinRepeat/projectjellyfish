@@ -10,7 +10,7 @@ module CloudForms
       end
 
       def tag_list
-        %w(automation script)
+        %w[automation script]
       end
     end
   end

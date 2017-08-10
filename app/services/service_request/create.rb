@@ -34,13 +34,13 @@ class ServiceRequest < ApplicationRecord
         end
       end
 
-      validate accepted?: [:product_id, :project_id] do |product_id, project_id|
+      validate accepted?: %i[product_id project_id] do |product_id, project_id|
         Project.accepts(Product.find(product_id).cached_tag_list).where(id: project_id).exists?
       end
     end
 
     def perform
-      validate params[:data][:attributes], error_nesting: %i(data attributes) do |attributes|
+      validate params[:data][:attributes], error_nesting: %i[data attributes] do |attributes|
         model.settings = product.default_settings
         model.update attributes
       end

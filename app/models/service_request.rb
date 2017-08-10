@@ -13,7 +13,7 @@ class ServiceRequest < ApplicationRecord
 
   state_machine :state, initial: :pending do
     event :configure do
-      transition [:pending, :configured] => :configured
+      transition %i[pending configured] => :configured
     end
 
     event :order do
@@ -27,7 +27,7 @@ class ServiceRequest < ApplicationRecord
 
     event :approve do
       # Approve the request if the provider is connected
-      transition [:delayed, :ordered] => :approved, if: ->(request) { request.provider_connected? }
+      transition %i[delayed ordered] => :approved, if: ->(request) { request.provider_connected? }
       # The provider is not connected
       transition ordered: :delayed
     end

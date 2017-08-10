@@ -341,7 +341,7 @@ module Goby
 
         hash = {}
 
-        hash[:id] = serializer._id if serializer._id && !serializer._id.empty?
+        hash[:id] = serializer._id if serializer._id.present?
         hash[:type] = serializer._type
 
         attributes = serializer.attributes
