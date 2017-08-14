@@ -61,7 +61,7 @@ module Goby
     private
 
     def setup!
-      %i[setup_params! sanitize_params! finalize_params! assign_model! setup_model! authorize! finalize_model!].each do |setup_method|
+      %i(setup_params! sanitize_params! finalize_params! assign_model! setup_model! authorize! finalize_model!).each do |setup_method|
         begin
           send setup_method
         rescue Goby::Exceptions::Error => e

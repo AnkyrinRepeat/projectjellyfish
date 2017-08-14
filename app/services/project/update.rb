@@ -23,13 +23,13 @@ class Project < ApplicationRecord
     validation do
       optional(:budget).maybe(format?: ApplicationRecord::Types::BUDGET_REGEXP)
 
-      validate budget: %i[budget] do |_budget|
-        Membership.where(user_id: context.id, project_id: model.id, role: %i[admin owner]).exists?
+      validate budget: %i(budget) do |_budget|
+        Membership.where(user_id: context.id, project_id: model.id, role: %i(admin owner)).exists?
       end
     end
 
     def perform
-      validate params[:data][:attributes], error_nesting: %i[data attributes] do |data|
+      validate params[:data][:attributes], error_nesting: %i(data attributes) do |data|
         model.update data
       end
     end

@@ -13,7 +13,7 @@ class ProjectRequest < ApplicationRecord
         required(:data).schema do
           required(:type, :string).filled(eql?: 'project_request/approvals')
           required(:attributes).schema do
-            required(:approval, :string).filled(included_in?: %w[approve deny])
+            required(:approval, :string).filled(included_in?: %w(approve deny))
             optional(:budget, :string).maybe(format?: ApplicationRecord::Types::BUDGET_REGEXP)
             optional(:reason_message, :string).maybe(:str?)
           end

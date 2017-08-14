@@ -11,7 +11,7 @@ class MemberSerializer < ApplicationSerializer
     fields = super
 
     unless context.admin?
-      fields -= %i[email]
+      fields -= %i(email)
     end
 
     fields

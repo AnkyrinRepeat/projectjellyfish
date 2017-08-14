@@ -33,13 +33,13 @@ class Membership < ApplicationRecord
       required(:user_id).filled(:user_exists?)
       required(:project_id).filled(:project_exists?)
 
-      validate member_already?: %i[user_id product_id] do |user_id, project_id|
+      validate member_already?: %i(user_id product_id) do |user_id, project_id|
         !Membership.where(user_id: user_id, project_id: project_id).exists?
       end
     end
 
     def perform
-      validate params[:data][:attributes], error_nesting: %i[data attributes] do
+      validate params[:data][:attributes], error_nesting: %i(data attributes) do
         model.update params[:data][:attributes]
       end
     rescue ActiveRecord::RecordNotUnique

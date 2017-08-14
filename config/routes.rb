@@ -10,21 +10,21 @@ Rails.application.routes.draw do
 
   # API Routes
   scope :api, format: false, defaults: { format: :jsonapi } do
-    resource :app_settings, only: %i[show update]
+    resource :app_settings, only: %i(show update)
 
     resource :registrations, only: [:create]
-    resource :sessions, only: %i[create destroy]
-    resource :passwords, only: %i[create update]
+    resource :sessions, only: %i(create destroy)
+    resource :passwords, only: %i(create update)
 
-    resources :users, only: %i[index show create update destroy] do
+    resources :users, only: %i(index show create update destroy) do
       resource :password, only: [:update], module: :users
       resource :action, only: [:create], module: :users
     end
 
     resource :account_info, only: [:show]
 
-    resources :provider_types, only: %i[index show]
-    resources :provider_data, only: %i[index show]
+    resources :provider_types, only: %i(index show)
+    resources :provider_data, only: %i(index show)
     resources :providers do
       resource :connection, only: [:update], module: :providers
       resource :sync, only: [:create], module: :providers
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
     resources :product_categories
 
-    resources :product_types, only: %i[index show]
+    resources :product_types, only: %i(index show)
     resources :products
 
     resources :service_requests do
@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     resources :services do
       resource :action, only: [:create], module: :services
     end
-    resources :service_details, only: %i[index show]
+    resources :service_details, only: %i(index show)
 
     resources :project_requests do
       resource :approval, only: [:create], module: :project_requests
@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     resources :project_questions
 
     resources :memberships
-    resources :members, only: %i[index show]
+    resources :members, only: %i(index show)
 
     resources :filters
   end

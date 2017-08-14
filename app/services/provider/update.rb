@@ -23,7 +23,7 @@ class Provider < ApplicationRecord
 
     def perform
       schema = model.class.credentials_schema :update
-      nesting = %i[data attributes credentials]
+      nesting = %i(data attributes credentials)
       validate params[:data][:attributes][:credentials], schema: schema, error_nesting: nesting do |credentials|
         model.assign_attributes(params[:data][:attributes].tap { |attribute| attribute.delete :credentials })
         model.update credentials

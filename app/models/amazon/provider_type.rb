@@ -1,7 +1,7 @@
 module Amazon
   class ProviderType < ::ProviderType
     def tag_list
-      %w[aws public]
+      %w(aws public)
     end
   end
 end

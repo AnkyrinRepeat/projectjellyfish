@@ -7,11 +7,11 @@ class AppSettingSerializer < ApplicationSerializer
     fields = super
 
     # Allowed Anonymous settings
-    anon_settings = %i[enable_signin enable_signup enable_remote]
+    anon_settings = %i(enable_signin enable_signup enable_remote)
     return anon_settings if context.blank?
 
     unless context.admin?
-      fields -= %i[mail_host mail_port mail_username mail_sender]
+      fields -= %i(mail_host mail_port mail_username mail_sender)
     end
 
     fields

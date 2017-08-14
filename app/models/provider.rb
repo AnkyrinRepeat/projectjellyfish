@@ -9,7 +9,7 @@ class Provider < ApplicationRecord
   has_many :products
   has_many :provider_data, dependent: :delete_all
 
-  pg_search_scope :search, against: %i[name description cached_tag_list], using: {
+  pg_search_scope :search, against: %i(name description cached_tag_list), using: {
     tsearch: {
       dictionary: 'english',
       tsvector_column: :tsv

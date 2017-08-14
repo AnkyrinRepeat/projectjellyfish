@@ -11,7 +11,7 @@ class ProductType < ApplicationRecord
     end
 
     def tag_list
-      %w[server virtual-machine]
+      %w(server virtual-machine)
     end
   end
 end

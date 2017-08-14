@@ -23,7 +23,7 @@ class ServiceRequest < ApplicationRecord
     def perform
       data = params[:data][:attributes][:settings]
       schema = model.class.settings_schema :update
-      nesting = %i[data attributes settings]
+      nesting = %i(data attributes settings)
       validate data, schema: schema, error_nesting: nesting do |settings|
         model.assign_attributes(params[:data][:attributes].tap { |attribute| attribute.delete :settings })
         model.assign_attributes settings

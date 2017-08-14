@@ -13,7 +13,7 @@ class ServiceRequest < ApplicationRecord
         required(:data).schema do
           required(:type, :string).filled(eql?: 'service_request/approvals')
           required(:attributes).schema do
-            required(:approval, :string).filled(included_in?: %w[approve deny])
+            required(:approval, :string).filled(included_in?: %w(approve deny))
             optional(:reason_message, :string).maybe(:str?)
           end
         end

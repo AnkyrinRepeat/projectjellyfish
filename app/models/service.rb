@@ -36,7 +36,7 @@ class Service < ApplicationRecord
 
   # Optional: Implement and call `+ super` in each service to exclude actions from being serialized
   def ignored_actions
-    %i[errored done]
+    %i(errored done)
   end
 
   # Optional: Implement in each service to define default details

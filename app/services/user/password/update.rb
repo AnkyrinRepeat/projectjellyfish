@@ -25,7 +25,7 @@ class User < ApplicationRecord
       end
 
       def perform
-        validate params[:data][:attributes], error_nesting: %i[data attributes] do |attributes|
+        validate params[:data][:attributes], error_nesting: %i(data attributes) do |attributes|
           model.update_attributes attributes
         end
       end
